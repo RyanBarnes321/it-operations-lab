@@ -1,0 +1,6 @@
+{
+  "scope": "configuration only, same-disk drill; no secrets or application state",
+  "restored_files_compared": 27,
+  "all_identical": true,
+  "sha256": "4a13fda82e82589fcee7be3c1cf20ec42353bcf6bfd1a42ddf38200ff5184c28"
+}

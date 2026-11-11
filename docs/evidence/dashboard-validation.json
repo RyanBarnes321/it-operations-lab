@@ -1,0 +1,130 @@
+{
+  "timestamp": "2026-11-11T18:57:55.165590+00:00",
+  "grafana_health": {
+    "database": "ok",
+    "version": "13.3.1",
+    "commit": "da3aa3ff574e7dbbf808c66b6daa744defed0441"
+  },
+  "dashboard_uid": "dell-lab-overview",
+  "datasource_uid": "prometheus",
+  "panels": [
+    {
+      "panel": "CPU utilization",
+      "expression": "100 * (1 - avg(rate(node_cpu_seconds_total{job=\"dell-lab\",mode=\"idle\"}[5m])))",
+      "results": [
+        {
+          "metric": {},
+          "value": [
+            1794423475.484,
+            "8.685964912280697"
+          ]
+        }
+      ]
+    },
+    {
+      "panel": "Memory utilization",
+      "expression": "100 * (1 - node_memory_MemAvailable_bytes{job=\"dell-lab\"} / node_memory_MemTotal_bytes{job=\"dell-lab\"})",
+      "results": [
+        {
+          "metric": {
+            "instance": "node-exporter:9100",
+            "job": "dell-lab"
+          },
+          "value": [
+            1794423475.517,
+            "8.607484730792658"
+          ]
+        }
+      ]
+    },
+    {
+      "panel": "Root filesystem used",
+      "expression": "100 * (1 - (node_filesystem_avail_bytes{job=\"dell-lab\",mountpoint=\"/\",fstype!~\"tmpfs|overlay|squashfs\"} / node_filesystem_size_bytes{job=\"dell-lab\",mountpoint=\"/\",fstype!~\"tmpfs|overlay|squashfs\"}))",
+      "results": [
+        {
+          "metric": {
+            "device": "/dev/mapper/dell--lab--vg-root",
+            "fstype": "ext4",
+            "instance": "node-exporter:9100",
+            "job": "dell-lab",
+            "mountpoint": "/"
+          },
+          "value": [
+            1794423475.558,
+            "7.587221437708413"
+          ]
+        }
+      ]
+    },
+    {
+      "panel": "System uptime",
+      "expression": "time() - node_boot_time_seconds{job=\"dell-lab\"}",
+      "results": [
+        {
+          "metric": {
+            "instance": "node-exporter:9100",
+            "job": "dell-lab"
+          },
+          "value": [
+            1794423475.627,
+            "843.6270000934601"
+          ]
+        }
+      ]
+    },
+    {
+      "panel": "Network throughput (excluding virtual interfaces)",
+      "expression": "sum(rate(node_network_receive_bytes_total{job=\"dell-lab\",device!~\"lo|veth.*|docker.*|br-.*\"}[5m]))",
+      "results": [
+        {
+          "metric": {},
+          "value": [
+            1794423475.675,
+            "41.84561403508771"
+          ]
+        }
+      ]
+    },
+    {
+      "panel": "Network throughput (excluding virtual interfaces)",
+      "expression": "sum(rate(node_network_transmit_bytes_total{job=\"dell-lab\",device!~\"lo|veth.*|docker.*|br-.*\"}[5m]))",
+      "results": [
+        {
+          "metric": {},
+          "value": [
+            1794423475.715,
+            "872.9157894736841"
+          ]
+        }
+      ]
+    },
+    {
+      "panel": "Scrape target health (1 = UP, 0 = DOWN)",
+      "expression": "up{job=~\"dell-lab|prometheus\"}",
+      "results": [
+        {
+          "metric": {
+            "__name__": "up",
+            "instance": "prometheus:9090",
+            "job": "prometheus"
+          },
+          "value": [
+            1794423475.752,
+            "1"
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "up",
+            "instance": "node-exporter:9100",
+            "job": "dell-lab"
+          },
+          "value": [
+            1794423475.752,
+            "1"
+          ]
+        }
+      ]
+    }
+  ]
+}

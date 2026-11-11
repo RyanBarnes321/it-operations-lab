@@ -1,0 +1,269 @@
+{
+  "started": "2026-11-11T18:59:18.913468+00:00",
+  "scenario": "node-exporter stopped",
+  "samples": [
+    {
+      "time": 1794423558.957584,
+      "alerts": []
+    },
+    {
+      "time": 1794423563.9653711,
+      "alerts": []
+    },
+    {
+      "time": 1794423568.9703627,
+      "alerts": []
+    },
+    {
+      "time": 1794423573.9753554,
+      "alerts": []
+    },
+    {
+      "time": 1794423578.9800463,
+      "alerts": [
+        {
+          "labels": {
+            "alertname": "TargetDown",
+            "instance": "node-exporter:9100",
+            "job": "dell-lab",
+            "severity": "warning"
+          },
+          "annotations": {
+            "summary": "Scrape failed for node-exporter:9100"
+          },
+          "state": "pending",
+          "activeAt": "2026-11-11T18:59:38.93161352Z",
+          "value": "0e+00"
+        }
+      ]
+    },
+    {
+      "time": 1794423583.985326,
+      "alerts": [
+        {
+          "labels": {
+            "alertname": "TargetDown",
+            "instance": "node-exporter:9100",
+            "job": "dell-lab",
+            "severity": "warning"
+          },
+          "annotations": {
+            "summary": "Scrape failed for node-exporter:9100"
+          },
+          "state": "pending",
+          "activeAt": "2026-11-11T18:59:38.93161352Z",
+          "value": "0e+00"
+        }
+      ]
+    },
+    {
+      "time": 1794423588.9905171,
+      "alerts": [
+        {
+          "labels": {
+            "alertname": "TargetDown",
+            "instance": "node-exporter:9100",
+            "job": "dell-lab",
+            "severity": "warning"
+          },
+          "annotations": {
+            "summary": "Scrape failed for node-exporter:9100"
+          },
+          "state": "pending",
+          "activeAt": "2026-11-11T18:59:38.93161352Z",
+          "value": "0e+00"
+        }
+      ]
+    },
+    {
+      "time": 1794423593.9956577,
+      "alerts": [
+        {
+          "labels": {
+            "alertname": "TargetDown",
+            "instance": "node-exporter:9100",
+            "job": "dell-lab",
+            "severity": "warning"
+          },
+          "annotations": {
+            "summary": "Scrape failed for node-exporter:9100"
+          },
+          "state": "pending",
+          "activeAt": "2026-11-11T18:59:38.93161352Z",
+          "value": "0e+00"
+        }
+      ]
+    },
+    {
+      "time": 1794423599.0007737,
+      "alerts": [
+        {
+          "labels": {
+            "alertname": "TargetDown",
+            "instance": "node-exporter:9100",
+            "job": "dell-lab",
+            "severity": "warning"
+          },
+          "annotations": {
+            "summary": "Scrape failed for node-exporter:9100"
+          },
+          "state": "pending",
+          "activeAt": "2026-11-11T18:59:38.93161352Z",
+          "value": "0e+00"
+        }
+      ]
+    },
+    {
+      "time": 1794423604.0056245,
+      "alerts": [
+        {
+          "labels": {
+            "alertname": "TargetDown",
+            "instance": "node-exporter:9100",
+            "job": "dell-lab",
+            "severity": "warning"
+          },
+          "annotations": {
+            "summary": "Scrape failed for node-exporter:9100"
+          },
+          "state": "pending",
+          "activeAt": "2026-11-11T18:59:38.93161352Z",
+          "value": "0e+00"
+        }
+      ]
+    },
+    {
+      "time": 1794423609.0116234,
+      "alerts": [
+        {
+          "labels": {
+            "alertname": "TargetDown",
+            "instance": "node-exporter:9100",
+            "job": "dell-lab",
+            "severity": "warning"
+          },
+          "annotations": {
+            "summary": "Scrape failed for node-exporter:9100"
+          },
+          "state": "pending",
+          "activeAt": "2026-11-11T18:59:38.93161352Z",
+          "value": "0e+00"
+        }
+      ]
+    },
+    {
+      "time": 1794423614.0173552,
+      "alerts": [
+        {
+          "labels": {
+            "alertname": "TargetDown",
+            "instance": "node-exporter:9100",
+            "job": "dell-lab",
+            "severity": "warning"
+          },
+          "annotations": {
+            "summary": "Scrape failed for node-exporter:9100"
+          },
+          "state": "pending",
+          "activeAt": "2026-11-11T18:59:38.93161352Z",
+          "value": "0e+00"
+        }
+      ]
+    },
+    {
+      "time": 1794423619.0231643,
+      "alerts": [
+        {
+          "labels": {
+            "alertname": "TargetDown",
+            "instance": "node-exporter:9100",
+            "job": "dell-lab",
+            "severity": "warning"
+          },
+          "annotations": {
+            "summary": "Scrape failed for node-exporter:9100"
+          },
+          "state": "pending",
+          "activeAt": "2026-11-11T18:59:38.93161352Z",
+          "value": "0e+00"
+        }
+      ]
+    },
+    {
+      "time": 1794423624.028063,
+      "alerts": [
+        {
+          "labels": {
+            "alertname": "TargetDown",
+            "instance": "node-exporter:9100",
+            "job": "dell-lab",
+            "severity": "warning"
+          },
+          "annotations": {
+            "summary": "Scrape failed for node-exporter:9100"
+          },
+          "state": "pending",
+          "activeAt": "2026-11-11T18:59:38.93161352Z",
+          "value": "0e+00"
+        }
+      ]
+    },
+    {
+      "time": 1794423629.0330427,
+      "alerts": [
+        {
+          "labels": {
+            "alertname": "TargetDown",
+            "instance": "node-exporter:9100",
+            "job": "dell-lab",
+            "severity": "warning"
+          },
+          "annotations": {
+            "summary": "Scrape failed for node-exporter:9100"
+          },
+          "state": "pending",
+          "activeAt": "2026-11-11T18:59:38.93161352Z",
+          "value": "0e+00"
+        }
+      ]
+    },
+    {
+      "time": 1794423634.0378885,
+      "alerts": [
+        {
+          "labels": {
+            "alertname": "TargetDown",
+            "instance": "node-exporter:9100",
+            "job": "dell-lab",
+            "severity": "warning"
+          },
+          "annotations": {
+            "summary": "Scrape failed for node-exporter:9100"
+          },
+          "state": "pending",
+          "activeAt": "2026-11-11T18:59:38.93161352Z",
+          "value": "0e+00"
+        }
+      ]
+    },
+    {
+      "time": 1794423639.042817,
+      "alerts": [
+        {
+          "labels": {
+            "alertname": "TargetDown",
+            "instance": "node-exporter:9100",
+            "job": "dell-lab",
+            "severity": "warning"
+          },
+          "annotations": {
+            "summary": "Scrape failed for node-exporter:9100"
+          },
+          "state": "firing",
+          "activeAt": "2026-11-11T18:59:38.93161352Z",
+          "value": "0e+00"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+groups:
+  - name: lab
+    rules:
+      - alert: TargetDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Scrape failed for {{ $labels.instance }}'
+      - alert: ProbeFailed
+        expr: probe_success == 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Probe failed for {{ $labels.instance }}'
+      - alert: RootDiskLow
+        expr: node_filesystem_avail_bytes{mountpoint="/",job="dell-lab"} / node_filesystem_size_bytes{mountpoint="/",job="dell-lab"} < 0.15
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Root filesystem has less than 15 percent available

@@ -1,0 +1,19 @@
+{
+  "timestamp": "2026-11-11T19:00:55.762518+00:00",
+  "tests": {
+    "http": [
+      "probe_dns_lookup_time_seconds 0.000803303",
+      "probe_http_status_code 404",
+      "probe_success 0"
+    ],
+    "tcp": [
+      "probe_dns_lookup_time_seconds 0.001063343",
+      "probe_success 0"
+    ],
+    "dns": [
+      "probe_dns_lookup_time_seconds 0.018425913",
+      "probe_http_status_code 0",
+      "probe_success 0"
+    ]
+  }
+}

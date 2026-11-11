@@ -1,0 +1,24 @@
+rule_files:
+  - /etc/prometheus/alerts/lab.yml
+evaluation_interval: 15s
+tests:
+  - interval: 15s
+    input_series:
+      - series: 'probe_success{instance="fixture",job="blackbox-http"}'
+        values: '1 0 0 0 0 0 1'
+    alert_rule_test:
+      - eval_time: 15s
+        alertname: ProbeFailed
+        exp_alerts: []
+      - eval_time: 75s
+        alertname: ProbeFailed
+        exp_alerts:
+          - exp_labels:
+              instance: fixture
+              job: blackbox-http
+              severity: warning
+            exp_annotations:
+              summary: Probe failed for fixture
+      - eval_time: 90s
+        alertname: ProbeFailed
+        exp_alerts: []

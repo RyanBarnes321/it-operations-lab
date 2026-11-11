@@ -1,0 +1,11 @@
+apiVersion: 1
+providers:
+  - name: Dell Lab
+    orgId: 1
+    folder: Dell Lab
+    type: file
+    disableDeletion: false
+    editable: false
+    updateIntervalSeconds: 30
+    options:
+      path: /etc/grafana/dashboards
