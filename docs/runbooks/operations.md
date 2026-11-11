@@ -65,3 +65,22 @@ dashboard and all Prometheus targets. Restart policies are `unless-stopped`;
 intentionally stopped services can remain stopped. No reboot test was performed.
 Investigate a UPS, replacement battery and firmware power restoration options in
 future; no boot, encryption, firmware or power settings were changed.
+
+## Application state backup drill
+
+`scripts/backup-state.sh --allow-service-stop /private/destination` requires a
+mode-700 existing directory. It checks both services are running, stops only
+Grafana and Prometheus, copies their data and source/secrets, then creates a
+mode-600 gzip archive plus checksum. An EXIT handler restarts services and removes
+working copies. Allow a maintenance window; monitoring has a gap while stopped.
+An uncatchable kill or power loss requires manual `docker compose start grafana
+prometheus`. Check available space first: working copy plus compressed archive
+requires additional capacity. There is no automatic pruning; monitor backup space.
+
+The state archive contains credentials and Grafana state: never upload it to Git
+or include it in public evidence. For restoration, verify its checksum and extract
+into a private directory. SQLite integrity was checked on the restored Grafana DB.
+A temporary Prometheus container with network disabled, no published ports, and the
+restored data started successfully and returned a historical host metric. The test
+container was removed and live volumes were never overwritten. Grafana full restored
+application startup and off-device recovery remain unverified.

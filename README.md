@@ -72,3 +72,7 @@ integration is deployed. See the progress record for remaining release gates.
 
 PromQL, provisioning, Docker networking, least exposure, bounded resources, Bash
 troubleshooting, alert testing, controlled failure investigation and honest evidence.
+
+Application-state backup is also implemented; see the operations runbook for the
+maintenance-window command and verified isolated restore scope. Full Grafana restore
+startup and independent disaster recovery remain unverified.

@@ -33,3 +33,11 @@ networking, SSH, boot, LUKS, power settings or unrelated services changed.
 Next session: read this record, README and evidence; inspect live state first. Do
 not repeat dashboard installation or rotate credentials. Finish outstanding gates
 before claiming the first portfolio release. Local Git only; ask before remote creation.
+
+Follow-up in this session: application-state backup script added and executed with
+an explicit service-stop flag. Grafana and Prometheus restored to running state.
+Protected archive includes secrets and is ignored by Git. Restore drill checked
+Grafana SQLite integrity and booted a temporary network-isolated Prometheus against
+restored TSDB, querying a real host metric. See state-restore.json. This supersedes
+the earlier configuration-only backup status; full Grafana restored startup,
+off-device storage and PowerShell execution remain outstanding.

@@ -1,0 +1,7 @@
+{
+  "grafana_sqlite_integrity": "ok",
+  "prometheus_isolated_restore_ready": true,
+  "restored_host_metric_query_nonempty": true,
+  "network": "none; no published ports",
+  "scope": "same-disk test; Grafana full application startup not tested"
+}
