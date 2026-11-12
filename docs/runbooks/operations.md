@@ -52,7 +52,8 @@ source and run `docker compose -f RESTORE/compose.yaml config --no-interpolate` 
 after restoring the required secret files securely. Do not deploy a drill over the
 live stack. For real recovery provision secrets through a separate protected channel,
 restore source configuration, validate, start, and verify targets/dashboard.
-Full application-state backup and restoration remain release gates. Do not claim
+Application-state restoration is now verified in an isolated drill; independent
+off-device recovery remains a release gate. Do not claim
 same-disk archives provide disaster recovery. Scheduling is deferred until protected
 off-device storage and retention requirements are established.
 
@@ -82,5 +83,51 @@ or include it in public evidence. For restoration, verify its checksum and extra
 into a private directory. SQLite integrity was checked on the restored Grafana DB.
 A temporary Prometheus container with network disabled, no published ports, and the
 restored data started successfully and returned a historical host metric. The test
-container was removed and live volumes were never overwritten. Grafana full restored
-application startup and off-device recovery remain unverified.
+container was removed and live volumes were never overwritten. Grafana restored application startup, provisioning and queries are now verified;
+off-device recovery remains unverified. See the repeatable drill below.
+
+
+## Repeat Grafana application restoration without touching production
+
+The existing backup is `backups/lab-state-PlVe4Kg0.tar.gz`. This is sensitive and
+root-readable only. Run from the project as an authorized local administrator:
+
+```sh
+python3 scripts/verify-grafana-restore.py
+# Optional: supply a returned copy with matching .sha256 sidecar:
+# python3 scripts/verify-grafana-restore.py /private/staging/returned-state.tar.gz
+```
+
+The stdlib Python 3 harness checks the stored SHA256, extracts with the safe data
+filter into a private temporary directory under ignored backups, creates uniquely
+named Grafana/Prometheus containers and a dedicated **internal** bridge, publishes
+no ports, and mounts only restored copies. Production containers are not attached
+to this network. The harness requires Docker access and local ownership-management
+rights; the current session runs as root. Production configuration/ownership is not
+changed. Images are already cached; no installation is performed by the drill.
+
+Safe extraction deliberately drops archived ownership. The first test attempts
+found SQLite readonly errors and Prometheus query-log permission errors. The harness
+now explicitly assigns only disposable Grafana state to UID/GID 472 and Prometheus
+state to 65534 before unprivileged startup. These permissions are part of recovery,
+not a reason to relax live secrets or run restored services as root. Earlier failed
+test containers/networks were cleaned up.
+
+Health verifies the restored Grafana database. Authenticated API calls verify the
+provisioned datasource and six-panel dashboard; seven expressions execute through
+the restored datasource against restored Prometheus. Because the backup is old,
+queries use the known healthy timestamp from dashboard-validation.json, not current
+time. An initial timestamp near the prior failure exercise returned an empty memory
+series; choosing the recorded healthy snapshot avoids confusing historic gaps with
+restore failure. Uptime at a historic evaluation instant is historical uptime, not
+current host uptime. No current-availability claim is made from restored data.
+
+The finally handler removes only the uniquely named temporary containers/network;
+TemporaryDirectory removes only the temporary extracted copies. The original archive
+is retained. The recorded production container IDs, start times, restart counters
+and running states are identical before and after, and production Grafana health is
+checked again after test shutdown. Evidence: grafana-restore-verification.json.
+This drill checks application/API behavior; it does not replace visual rendering
+inspection or the pending off-device recovery exercise. If forcibly killed or the
+host loses power, inspect uniquely named `lab-restore-*` resources before cleanup;
+never remove production volumes.

@@ -1,43 +1,62 @@
-# Persistent implementation record — 2026-11-11
+# Persistent implementation record — release candidate
 
-A: Verified existing provisioned six-panel dashboard through authenticated Grafana
-API, correct datasource UID and seven nonempty real queries. JSON parsed; Grafana
-accepted provisioning YAML. Existing config modes 644, directories traversable.
-No Grafana restart or credential change required. Browser visual check pending.
+Updated 2026-11-11 America/Montevideo. Evidence uses UTC (some timestamps Nov 12).
+Starting commit for this continuation: fd47545. Local repository only; no remote
+creation/push/publication authorized. Read README and RELEASE-CHECKLIST.md next.
 
-B: README, architecture, runbook and historical permissions incident written.
-Local Git foundation being established; remote creation/publication not authorized.
+## Verified existing functionality
 
-C: Blackbox 0.27.0 deployed privately, 128 MiB cap. HTTP and TCP jobs and three
-alert rules installed. Compose, promtool syntax and synthetic probe alert
-pending/firing/recovery tests passed. Controlled exporter stop exercised separately.
-No Alertmanager or outbound notifications deployed.
+- Production Grafana/Prometheus/Node Exporter/Blackbox retain their pinned versions,
+  memory limits, restart policies and private port bindings. No new monitoring
+  component added. Seven targets UP, four probes successful, no active alerts at audit.
+- Six-panel Dell Lab Overview provisioned with datasource UID prometheus. All seven
+  live instant queries and seven one-hour range queries nonempty; correct source
+  expressions, time range, refresh, panel types and units reviewed. Browser rendering
+  remains **pending**. See dashboard-rc-audit.json.
+- Compose and Prometheus/rule syntax pass. Shell syntax validation was corrected to
+  check each script individually (bash -n accepts only one script filename). Three alert rules have deterministic
+  delay/firing/recovery tests. Twelve Bash diagnostics pass. Prior real TargetDown
+  exercise and incident evidence retained without repeating service interruption.
+- Historical Grafana permissions incident remains attributed to the handoff;
+  HTTP/TCP/DNS reports are isolated simulations, not alert-delivery demonstrations.
 
-D: Bash diagnostic CLI and 12 runtime checks passed. PowerShell CLI implemented;
-PowerShell unavailable on host, Windows execution remains unverified.
+## Closed: Grafana restored application verification
 
-E: Loki/Alloy deferred. Local Docker logs support investigations but no centralized
-log retention is claimed. Prefer completing existing operational capabilities before
-adding another stateful system and Docker log access privileges.
+The existing lab-state-PlVe4Kg0.tar.gz checksum was verified, restored into disposable
+copies, and started as unprivileged Grafana and Prometheus on a dedicated internal
+network, no published ports or production volume mounts. Restored Grafana database
+health, datasource, provisioned dashboard and seven historical panel queries passed.
+Test containers/network were removed. Production IDs, start times, restart counters
+and running state were unchanged, and post-cleanup Grafana health passed.
 
-F: Configuration-only backup and isolated restore drill implemented. No protected
-off-device destination or application-state restore verified; no backup scheduling
-installed. HTTP, TCP and DNS isolated failure reports plus historical Grafana report
-written. Separate live TargetDown evidence retained.
+See scripts/verify-grafana-restore.py, the operations runbook and evidence
+`grafana-restore-verification.json`. Initial test attempts caught ownership dropped
+by safe extraction; only disposable restored files were assigned appropriate UIDs.
+Historical queries use the earlier recorded healthy snapshot, avoiding a gap from
+the original outage exercise. No production permissions or credentials changed.
 
-G: Release remains incomplete: PowerShell execution, full application-state backup
-and restore, independent backup destination, visual dashboard evidence and final
-reproducibility review remain. No existing API integration attempted. No host
-networking, SSH, boot, LUKS, power settings or unrelated services changed.
+## Pending user verification
 
-Next session: read this record, README and evidence; inspect live state first. Do
-not repeat dashboard installation or rotate credentials. Finish outstanding gates
-before claiming the first portfolio release. Local Git only; ask before remote creation.
+1. Execute tests/Verify-Windows.ps1 in PowerShell 7 **on Windows**. Nine safe test
+   cases cover the sole diagnostic script. Return sanitized JSON and runner exit.
+2. Inspect dashboard in a browser through the SSH tunnel; return a cropped reviewed
+   screenshot and result. Exact steps: docs/runbooks/windows-verification.md.
+3. Establish encrypted independent backup: docs/runbooks/off-device-backup.md.
+   Portable age v1.3.2 downloaded only under ignored runtime; official release asset
+   digest checked. Local existing-backup encrypt/decrypt SHA256 roundtrip and tamper
+   rejection passed; temporary keys/plaintext removed. Windows public recipient,
+   off-device transfer, independent key recovery copy and return-restore remain
+   **pending**. No Windows services/system settings changed, no plaintext exported.
 
-Follow-up in this session: application-state backup script added and executed with
-an explicit service-stop flag. Grafana and Prometheus restored to running state.
-Protected archive includes secrets and is ignored by Git. Restore drill checked
-Grafana SQLite integrity and booted a temporary network-isolated Prometheus against
-restored TSDB, querying a real host metric. See state-restore.json. This supersedes
-the earlier configuration-only backup status; full Grafana restored startup,
-off-device storage and PowerShell execution remain outstanding.
+## Audit and release status
+
+Scoped historical Git scan found no current secret values or selected private-key,
+GitHub-token or AWS-key markers in prior blobs; no runtime/secrets/backups tracked.
+Live image digests, memory limits, private bindings and validation results recorded
+in release-candidate-audit.json. This is not a universal secret/vulnerability audit.
+README/architecture/operations updated; comprehensive limitations and proposed gates
+are in RELEASE-CHECKLIST.md. Logging remains deferred; offsite protection is absent.
+
+**v1.0 is not complete.** Resume with the pending user evidence; do not reinstall
+working services, repeat historical outages, alter host network/SSH/boot/LUKS or
+publish remotely. No reboot, volume deletion or production restore was attempted.

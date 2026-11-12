@@ -1,0 +1,217 @@
+{
+  "timestamp": "2026-11-12T00:37:43.148718+00:00",
+  "backup": "lab-state-PlVe4Kg0.tar.gz",
+  "sha256_verified": true,
+  "method": "restored Grafana and Prometheus copies on dedicated internal Docker network; no published ports; no production volumes",
+  "commands": [
+    "docker network create --internal UNIQUE",
+    "docker run --network UNIQUE --network-alias prometheus [restored TSDB bind] prom/prometheus:v2.55.1",
+    "docker run --network UNIQUE [restored Grafana data/provisioning/secrets binds] grafana/grafana:13.3.1",
+    "GET /api/health; authenticated GET /api/datasources/uid/prometheus; GET /api/dashboards/uid/dell-lab-overview",
+    "GET /api/datasources/proxy/uid/prometheus/api/v1/query?query=EXPR&time=RECORDED_HEALTHY_SNAPSHOT_TIME",
+    "docker rm -f TEST_CONTAINERS; docker network rm UNIQUE"
+  ],
+  "production_before": {
+    "grafana": {
+      "id": "947f6f531081650ab6ed4dc8482ed7ebedf5aa398accc67f17235c6b18192c66",
+      "started_at": "2026-11-11T19:02:38.44424536Z",
+      "running": true,
+      "restarts": 0
+    },
+    "prometheus": {
+      "id": "ae0c12cfafbf7a4d73097626c6371597d44be435b5197ca47af8e166f305dc7a",
+      "started_at": "2026-11-11T19:02:38.520122886Z",
+      "running": true,
+      "restarts": 0
+    },
+    "node-exporter": {
+      "id": "5f6a05a25832e635b2c2b332adc1094051aa83edad50168b1c62fc58b390fcd5",
+      "started_at": "2026-11-11T19:00:39.992576533Z",
+      "running": true,
+      "restarts": 0
+    },
+    "blackbox": {
+      "id": "668a7b5374952528ba2a157feb083fcb3e37759fb15fdee926e26843a1b1a4a4",
+      "started_at": "2026-11-11T18:58:49.935243528Z",
+      "running": true,
+      "restarts": 0
+    }
+  },
+  "health": {
+    "database": "ok",
+    "version": "13.3.1",
+    "commit": "da3aa3ff574e7dbbf808c66b6daa744defed0441"
+  },
+  "datasource": {
+    "uid": "prometheus",
+    "url": "http://prometheus:9090"
+  },
+  "dashboard": {
+    "uid": "dell-lab-overview",
+    "panels": 6,
+    "provisioned": true
+  },
+  "queries": [
+    {
+      "panel": "CPU utilization",
+      "expression": "100 * (1 - avg(rate(node_cpu_seconds_total{job=\"dell-lab\",mode=\"idle\"}[5m])))",
+      "evaluation_time": 1794423475.16559,
+      "results": [
+        {
+          "metric": {},
+          "value": [
+            1794423475.166,
+            "8.685964912280697"
+          ]
+        }
+      ]
+    },
+    {
+      "panel": "Memory utilization",
+      "expression": "100 * (1 - node_memory_MemAvailable_bytes{job=\"dell-lab\"} / node_memory_MemTotal_bytes{job=\"dell-lab\"})",
+      "evaluation_time": 1794423475.16559,
+      "results": [
+        {
+          "metric": {
+            "instance": "node-exporter:9100",
+            "job": "dell-lab"
+          },
+          "value": [
+            1794423475.166,
+            "8.607484730792658"
+          ]
+        }
+      ]
+    },
+    {
+      "panel": "Root filesystem used",
+      "expression": "100 * (1 - (node_filesystem_avail_bytes{job=\"dell-lab\",mountpoint=\"/\",fstype!~\"tmpfs|overlay|squashfs\"} / node_filesystem_size_bytes{job=\"dell-lab\",mountpoint=\"/\",fstype!~\"tmpfs|overlay|squashfs\"}))",
+      "evaluation_time": 1794423475.16559,
+      "results": [
+        {
+          "metric": {
+            "device": "/dev/mapper/dell--lab--vg-root",
+            "fstype": "ext4",
+            "instance": "node-exporter:9100",
+            "job": "dell-lab",
+            "mountpoint": "/"
+          },
+          "value": [
+            1794423475.166,
+            "7.587221437708413"
+          ]
+        }
+      ]
+    },
+    {
+      "panel": "System uptime",
+      "expression": "time() - node_boot_time_seconds{job=\"dell-lab\"}",
+      "evaluation_time": 1794423475.16559,
+      "results": [
+        {
+          "metric": {
+            "instance": "node-exporter:9100",
+            "job": "dell-lab"
+          },
+          "value": [
+            1794423475.166,
+            "843.1659998893738"
+          ]
+        }
+      ]
+    },
+    {
+      "panel": "Network throughput (excluding virtual interfaces)",
+      "expression": "sum(rate(node_network_receive_bytes_total{job=\"dell-lab\",device!~\"lo|veth.*|docker.*|br-.*\"}[5m]))",
+      "evaluation_time": 1794423475.16559,
+      "results": [
+        {
+          "metric": {},
+          "value": [
+            1794423475.166,
+            "41.84561403508771"
+          ]
+        }
+      ]
+    },
+    {
+      "panel": "Network throughput (excluding virtual interfaces)",
+      "expression": "sum(rate(node_network_transmit_bytes_total{job=\"dell-lab\",device!~\"lo|veth.*|docker.*|br-.*\"}[5m]))",
+      "evaluation_time": 1794423475.16559,
+      "results": [
+        {
+          "metric": {},
+          "value": [
+            1794423475.166,
+            "872.9157894736841"
+          ]
+        }
+      ]
+    },
+    {
+      "panel": "Scrape target health (1 = UP, 0 = DOWN)",
+      "expression": "up{job=~\"dell-lab|prometheus\"}",
+      "evaluation_time": 1794423475.16559,
+      "results": [
+        {
+          "metric": {
+            "__name__": "up",
+            "instance": "prometheus:9090",
+            "job": "prometheus"
+          },
+          "value": [
+            1794423475.166,
+            "1"
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "up",
+            "instance": "node-exporter:9100",
+            "job": "dell-lab"
+          },
+          "value": [
+            1794423475.166,
+            "1"
+          ]
+        }
+      ]
+    }
+  ],
+  "temporary_containers_unprivileged": {
+    "lab-restore-cfe6c5d1c8-prom": "65534:65534",
+    "lab-restore-cfe6c5d1c8-graf": "472"
+  },
+  "production_after": {
+    "grafana": {
+      "id": "947f6f531081650ab6ed4dc8482ed7ebedf5aa398accc67f17235c6b18192c66",
+      "started_at": "2026-11-11T19:02:38.44424536Z",
+      "running": true,
+      "restarts": 0
+    },
+    "prometheus": {
+      "id": "ae0c12cfafbf7a4d73097626c6371597d44be435b5197ca47af8e166f305dc7a",
+      "started_at": "2026-11-11T19:02:38.520122886Z",
+      "running": true,
+      "restarts": 0
+    },
+    "node-exporter": {
+      "id": "5f6a05a25832e635b2c2b332adc1094051aa83edad50168b1c62fc58b390fcd5",
+      "started_at": "2026-11-11T19:00:39.992576533Z",
+      "running": true,
+      "restarts": 0
+    },
+    "blackbox": {
+      "id": "668a7b5374952528ba2a157feb083fcb3e37759fb15fdee926e26843a1b1a4a4",
+      "started_at": "2026-11-11T18:58:49.935243528Z",
+      "running": true,
+      "restarts": 0
+    }
+  },
+  "production_health_after": {
+    "database": "ok",
+    "version": "13.3.1",
+    "commit": "da3aa3ff574e7dbbf808c66b6daa744defed0441"
+  },
+  "cleanup_verified": true
+}

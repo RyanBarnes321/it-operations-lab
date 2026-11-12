@@ -1,0 +1,70 @@
+{
+  "timestamp": "2026-11-12T00:38:39.584299+00:00",
+  "provisioned": true,
+  "refresh": "30s",
+  "time_range": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "panels": 6,
+  "queries": [
+    {
+      "panel": "CPU utilization",
+      "unit": "percent",
+      "type": "stat",
+      "expression": "100 * (1 - avg(rate(node_cpu_seconds_total{job=\"dell-lab\",mode=\"idle\"}[5m])))",
+      "instant_result_series": 1,
+      "range_result_series": 1
+    },
+    {
+      "panel": "Memory utilization",
+      "unit": "percent",
+      "type": "stat",
+      "expression": "100 * (1 - node_memory_MemAvailable_bytes{job=\"dell-lab\"} / node_memory_MemTotal_bytes{job=\"dell-lab\"})",
+      "instant_result_series": 1,
+      "range_result_series": 1
+    },
+    {
+      "panel": "Root filesystem used",
+      "unit": "percent",
+      "type": "stat",
+      "expression": "100 * (1 - (node_filesystem_avail_bytes{job=\"dell-lab\",mountpoint=\"/\",fstype!~\"tmpfs|overlay|squashfs\"} / node_filesystem_size_bytes{job=\"dell-lab\",mountpoint=\"/\",fstype!~\"tmpfs|overlay|squashfs\"}))",
+      "instant_result_series": 1,
+      "range_result_series": 1
+    },
+    {
+      "panel": "System uptime",
+      "unit": "s",
+      "type": "stat",
+      "expression": "time() - node_boot_time_seconds{job=\"dell-lab\"}",
+      "instant_result_series": 1,
+      "range_result_series": 1
+    },
+    {
+      "panel": "Network throughput (excluding virtual interfaces)",
+      "unit": "Bps",
+      "type": "timeseries",
+      "expression": "sum(rate(node_network_receive_bytes_total{job=\"dell-lab\",device!~\"lo|veth.*|docker.*|br-.*\"}[5m]))",
+      "instant_result_series": 1,
+      "range_result_series": 1
+    },
+    {
+      "panel": "Network throughput (excluding virtual interfaces)",
+      "unit": "Bps",
+      "type": "timeseries",
+      "expression": "sum(rate(node_network_transmit_bytes_total{job=\"dell-lab\",device!~\"lo|veth.*|docker.*|br-.*\"}[5m]))",
+      "instant_result_series": 1,
+      "range_result_series": 1
+    },
+    {
+      "panel": "Scrape target health (1 = UP, 0 = DOWN)",
+      "unit": null,
+      "type": "stat",
+      "expression": "up{job=~\"dell-lab|prometheus\"}",
+      "instant_result_series": 2,
+      "range_result_series": 2
+    }
+  ],
+  "browser_inspected": false,
+  "browser_reason": "No browser connector, browser binary or Playwright installation found; manual procedure supplied"
+}

@@ -17,7 +17,8 @@ not configured. Configuration and local backup tests do not constitute disaster 
 ## Access and installation
 
 Requires Linux, Docker Engine and Compose v2, curl, Bash, GNU coreutils and getent.
-The current host uses approximately 2 GiB combined configured container memory limits.
+The four containers have a combined configured memory ceiling of 2 GiB. This is a
+ceiling, not measured usage; the Debian host and Docker also require memory.
 Grafana and Prometheus publish only on loopback. From your workstation:
 
 ```sh
@@ -55,8 +56,9 @@ pwsh -File automation/powershell/Test-LabEndpoint.ps1 -ComputerName localhost -P
 Exit codes: 0 success, 1 failed check, 2 invalid arguments. Scripts never repair
 services automatically. PowerShell requires version 7; execution on Windows remains
 unverified. Evidence contains actual API results, not benchmark or availability claims.
-The dashboard API and all expressions were verified; screenshots and visual browser
-inspection remain outstanding.
+The dashboard API, seven instant queries and seven one-hour range queries were
+verified. Browser rendering and screenshots remain pending. Use the
+[Windows and visual verification procedure](docs/runbooks/windows-verification.md).
 
 ## Limitations and scope
 
@@ -73,6 +75,12 @@ integration is deployed. See the progress record for remaining release gates.
 PromQL, provisioning, Docker networking, least exposure, bounded resources, Bash
 troubleshooting, alert testing, controlled failure investigation and honest evidence.
 
-Application-state backup is also implemented; see the operations runbook for the
-maintenance-window command and verified isolated restore scope. Full Grafana restore
-startup and independent disaster recovery remain unverified.
+Application-state backup and isolated restoration of Grafana and Prometheus have
+passed. Restored Grafana loaded its database, provisioned datasource and dashboard,
+and executed seven queries against restored historical metrics. Production containers
+and volumes were unaffected. Independent disaster recovery remains unverified.
+
+See the [v1.0 release checklist](docs/RELEASE-CHECKLIST.md),
+[restore verification](docs/evidence/grafana-restore-verification.json) and
+[off-device backup procedure](docs/runbooks/off-device-backup.md).
+This is a release candidate, not a completed v1.0 release.

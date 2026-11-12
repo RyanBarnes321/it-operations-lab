@@ -22,3 +22,46 @@ tests:
       - eval_time: 90s
         alertname: ProbeFailed
         exp_alerts: []
+  - interval: 15s
+    input_series:
+      - series: 'up{instance="fixture:9100",job="dell-lab"}'
+        values: '1 0 0 0 0 0 1'
+    alert_rule_test:
+      - eval_time: 15s
+        alertname: TargetDown
+        exp_alerts: []
+      - eval_time: 75s
+        alertname: TargetDown
+        exp_alerts:
+          - exp_labels:
+              instance: fixture:9100
+              job: dell-lab
+              severity: warning
+            exp_annotations:
+              summary: Scrape failed for fixture:9100
+      - eval_time: 90s
+        alertname: TargetDown
+        exp_alerts: []
+  - interval: 1m
+    input_series:
+      - series: 'node_filesystem_avail_bytes{instance="fixture:9100",job="dell-lab",mountpoint="/"}'
+        values: '20 14 14 14 14 14 14 20'
+      - series: 'node_filesystem_size_bytes{instance="fixture:9100",job="dell-lab",mountpoint="/"}'
+        values: '100+0x7'
+    alert_rule_test:
+      - eval_time: 1m
+        alertname: RootDiskLow
+        exp_alerts: []
+      - eval_time: 6m
+        alertname: RootDiskLow
+        exp_alerts:
+          - exp_labels:
+              instance: fixture:9100
+              job: dell-lab
+              mountpoint: /
+              severity: warning
+            exp_annotations:
+              summary: Root filesystem has less than 15 percent available
+      - eval_time: 7m
+        alertname: RootDiskLow
+        exp_alerts: []

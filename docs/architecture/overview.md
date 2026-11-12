@@ -29,3 +29,16 @@ Grafana 1 GiB, Prometheus 768 MiB, exporters 128 MiB each. Prometheus retention 
 15 days; volume capacity must still be monitored. Images retain existing versions.
 Blackbox configuration follows the upstream multi-target pattern:
 https://prometheus.io/docs/guides/multi-target-exporter/ .
+
+
+Release-candidate restore verification uses a separate temporary **internal** Docker
+network containing restored Grafana and Prometheus only. No ports are published;
+no live volumes are mounted, and production services are not connected. The host
+validation harness queries the temporary bridge address, then removes the drill.
+This network exists only during a drill, not as a deployed monitoring component.
+
+Proposed backup flow: consistent local state archive → age public-key encryption
+on Dell → user-initiated SCP pull to Windows over existing private SSH → protected
+Windows directory. Only ciphertext leaves the Dell. The Windows identity and its
+independent recovery copy remain controlled by the user. This transfer is proposed,
+not yet observed; same-house off-device storage is not offsite protection.
