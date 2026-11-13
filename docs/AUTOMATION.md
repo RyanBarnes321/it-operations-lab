@@ -45,13 +45,20 @@ runner JSON is absent. See [test evidence](TEST-EVIDENCE.md) for attribution.
 
 `scripts/validate.sh` validates Compose, Prometheus configuration, three alert
 rules, each shell file's syntax, and Bash diagnostics. It needs live Docker access;
-the final session could perform Compose and source checks but was denied daemon
-access. Historical passing execution remains historical evidence.
+the earlier handoff was denied daemon access. The final quality pass obtained
+authorized access and passed the suite, including three new backup failure-path
+checks. Historical results remain separate evidence.
 
 Backup scripts are maintenance tools with different effects: `backup-config.sh`
 archives source only; `backup-state.sh --allow-service-stop` briefly stops Grafana
 and Prometheus. The Python restore harness creates disposable isolated containers,
-reads restored Grafana credentials internally, and replaces its result JSON only
-on successful completion. It does not transfer a Windows backup. Consult the
+reads restored Grafana credentials internally, requires an explicit archive path,
+and writes an ignored runtime result only on successful completion. New archives
+need an appropriate `--evaluation-time` within their TSDB samples. Checks remain
+active under Python optimization; SHA-256 hashing streams the archive. It does not transfer a Windows backup. Consult the
 [operations](runbooks/operations.md) and [off-device backup](runbooks/off-device-backup.md)
 runbooks before using them.
+
+[Quality checks](QUALITY.md) explains source validation and the unexecuted GitHub
+Actions workflow. ShellCheck and a current Windows run were not performed in this
+Linux session. DNS and Docker commands rely on their own runtime behavior.

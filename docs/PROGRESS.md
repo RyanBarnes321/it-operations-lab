@@ -1,66 +1,69 @@
-# Persistent implementation record — final v1.0.0 handoff
+# Implementation and release record
 
-Updated 2026-11-12 America/Montevideo (UTC checks continue into Nov 13).
-Verified starting HEAD: `da25c7377cd0faabb260dbd2b5d7d9c2729490e8`.
-The existing modified returned-archive restore JSON was reviewed and preserved.
-No remote exists; no publication, host changes or new infrastructure was performed.
+## Final security and portfolio pass — 2026-11-12 local date
 
-## Completed acceptance evidence
+Starting HEAD was `444895fc0f5c6e103f20d6a6a8d64ac1c803d146`; the tree was clean,
+with five commits and no remote/tag. The user approved rewriting unpublished local
+history. A verified, mode-600 full recovery bundle and graph/state snapshots were
+created in a mode-700 directory outside the repository before rewriting. It is
+private temporary recovery storage, excluded from publication; preserve it elsewhere
+privately if durable recovery is needed.
 
-- Historical live audit: pinned four-service stack, private bindings, seven targets
-  UP, four probes successful, no active alerts, six provisioned panels with seven
-  instant and seven one-hour range queries nonempty. Values are historical.
-- Historical Compose/Prometheus/rule validation and twelve Bash cases passed.
-  All three alert rules test delay, firing and recovery. The real exporter exercise
-  and accurately labeled HTTP/TCP/DNS simulations remain in incident evidence.
-- User reports Windows PowerShell execution: nine of nine tests passed, exit 0;
-  success, DNS failure, TCP refusal, HTTP 404 and invalid input behavior covered.
-  Final Codex session did not run Windows. Original runner JSON is absent.
-- User reports six working Grafana panels through an SSH tunnel: CPU ~2.28%, RAM
-  ~8.23%, root ~7.63%, uptime ~39 minutes, two displayed targets UP and network RX/TX.
-  These are historical screenshot observations. Screenshot file is missing here.
-- User reports encrypted Windows round trip, original SHA-256 and exact-byte match.
-  Existing returned restore JSON records database health, provisioning, six panels,
-  seven historical queries, cleanup and unchanged production. Codex reviewed the
-  record; it did not independently transfer or decrypt the returned archive.
-- User reports passphrase-encrypted USB identity recovery, successful backup
-  decryption and matching plaintext archive SHA-256; safe storage confirmed.
-  No private identity or passphrase was inspected, copied, displayed or collected.
+Two historical runbook blobs contained an unnecessary private LAN address. Their
+replacement uses a documentation address; all five commits remain, with author
+metadata, messages and order preserved. Sanitized handoff HEAD became
+`3ee7829a39de27135f248c4827979fda615fcc3c`. Old refs/reflogs/objects were pruned;
+repeat object review and Git integrity checks passed. No other portfolio repository
+was touched. See [security review](SECURITY.md).
 
-See [test evidence](TEST-EVIDENCE.md) for provenance and historical scope.
+The user's final live report is recorded as user-executed Nov 12 observations:
+seven Prometheus targets UP, four probes successful, zero active alerts, healthy
+Grafana DB, four services running and error-free Compose validation. Exact execution
+time/raw output was not supplied. After approved access, Codex independently
+verified those results, effective loopback bindings, no published exporter ports
+and unauthenticated dashboard HTTP 401. No production restart was needed.
 
-## Final local checks and documentation
+Codex reran Compose, promtool configuration and all three rule fixtures, twelve
+Bash diagnostics and three new backup failure-path tests. Backup scripts now remove
+incomplete outputs and Bash host diagnostics stop on command failures. The restore
+harness now requires an explicit archive, streams SHA-256, supports an archive-specific
+healthy timestamp, keeps checks active under Python optimization and writes ignored
+runtime evidence by default. Its isolated regression passed with seven historical
+queries, cleanup and identical production before/after state. This did not repeat
+the Windows transfer or USB recovery test.
 
-Compose syntax, all five shell files individually, Python restore-harness AST,
-evidence JSON and Git integrity pass. Dashboard source matches the six-panel/seven-
-expression description, including the deliberately two-target scrape-health panel.
-Secret/backup parent permissions and ignore rules were checked without reading
-private data. Documentation now covers fresh installation with independent secrets,
-architecture, monitoring/alerts, automation, incident evidence, recovery, security,
-limitations, roadmap and draft release notes.
+README now leads with monitoring, alert firing/recovery, the real Grafana permission
+incident, cross-platform diagnostics and encrypted recovery. Detailed runbooks remain
+linked. Exporter network counters are accurately scoped to bridge networking.
+A source validator checks YAML/JSON, shell/Python syntax, local links, dashboard
+inventory and reachable-history privacy patterns. GitHub Actions reuses the local
+validation and Windows fixtures on disposable runners, without private dependencies.
+The hosted workflow has not run; no passing CI badge or claim was added.
 
-The live validation command was attempted but Docker socket access was denied.
-Loopback HTTP checks were also denied by the execution environment. No service was
-restarted or reconfigured. Current effective bindings/authentication and health
-therefore require a trusted local operator's validation; older results were not
-relabeled as current. See evidence/final-handoff-audit.json.
+## Preserved historical acceptance
 
-## Security finding and release disposition
+Historical evidence remains attributed: nine Windows tests passed per user report,
+twelve Bash cases, actual exporter alert firing/recovery, isolated HTTP/TCP/DNS
+simulations, local configuration/state recovery and encryption tamper rejection.
+The user reports encrypted Windows backup return, original SHA-256 match, isolated
+restoration and a successfully tested passphrase-encrypted USB recovery identity.
+No private identity/passphrase was collected. The returned restore JSON was preserved.
 
-All 51 starting Git blobs and four commits were scanned (complete local object
-inventory, refs/reflogs included); no credential/private-key/token patterns or
-tracked sensitive backup/runtime data were found. Historical runbooks do contain
-the original private LAN address. Current files now use placeholders, but history
-still exposes it. Publication is stopped pending an approved history rewrite and
-repeat audit. Commit identities were not rewritten without an explicit decision.
-Full scope and remediation: [security overview](SECURITY.md).
+The user's six-panel visual observations are historical; the screenshot and original
+Windows runner JSON are missing. No image was invented. The earlier handoff's
+socket restrictions and privacy holds remain in its immutable evidence record;
+this pass resolves those holds with new evidence rather than relabeling old results.
+See [test evidence](TEST-EVIDENCE.md).
 
-**v1.0.0 is prepared but not release-ready or tagged.** No tag conflict existed.
-After approved historical sanitization and final live checks, update the checklist
-and release notes, commit the result, and create the local annotated tag. No package
-version manifest exists; draft release documents use the planned `v1.0.0` identifier.
-Creating a remote or pushing still requires explicit user authorization.
+## Release disposition
 
-Accepted limits remain: manual LUKS unlocking, defective battery, no automatic
-power restoration, deferred centralized logging, no independently verified offsite
-backup, manual backup cadence and no guaranteed RPO/RTO. See LIMITATIONS.md.
+Ready for a local `v1.0.0` tag after the final quality commit and clean-tree check;
+no tag or remote has been created. Hosted CI and a separate clean-host rehearsal
+are pending evidence, not passed tests. No current Windows, ShellCheck, fresh
+vulnerability scan, reboot or power-recovery test was performed.
+
+Accepted limits remain manual LUKS unlock, defective battery, no automatic power
+restoration, deferred centralized logging, manual backups, no guaranteed RPO/RTO
+and no independently verified geographically separate offsite backup. Read the
+[checklist](RELEASE-CHECKLIST.md), [release notes](releases/v1.0.0.md) and
+[limitations](LIMITATIONS.md) before publication.

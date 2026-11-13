@@ -17,7 +17,7 @@ Diagnostic commands for recurrence: `docker compose ps`, `docker compose logs
 --tail 100 grafana`, `docker inspect` restart/OOM fields, `namei -l` on the affected
 file, and `curl -fsS http://127.0.0.1:3000/api/health`.
 
-This session independently verified Grafana health, datasource/dashboard API,
+The historical implementation session independently verified Grafana health, datasource/dashboard API,
 real panel queries and restart count zero. See dashboard-validation.json.
 Prevent recurrence with 755 non-secret directories, 644 provisioning files,
 configuration checks and health verification after changes. Keep secrets private;

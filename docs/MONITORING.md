@@ -12,7 +12,7 @@ refresh is 30 seconds and the default time window is the last hour.
 | Memory utilization | 100 × (1 − MemAvailable / MemTotal), percent |
 | Root filesystem used | 100 × (1 − available / size), percent; reserved space affects available |
 | System uptime | Evaluation time minus host boot time, seconds rendered as a duration |
-| Network throughput | Five-minute receive/transmit byte rates; excludes loopback, veth, docker and bridge interfaces |
+| Network throughput | Five-minute receive/transmit byte rates in the exporter network namespace; excludes loopback, veth, docker and bridge interfaces |
 | Scrape target health | `up` for the `dell-lab` and `prometheus` jobs; two displayed targets |
 
 Six panels contain seven expressions because network has receive and transmit
@@ -44,3 +44,8 @@ For incidents, compare service state, scrape health, probe result and endpoint
 behavior. Use the [operations runbook](runbooks/operations.md) and
 [incident evidence](incidents/). Preserve production access and restore only the
 service deliberately stopped. No host networking changes are required for simulations.
+
+Node Exporter has host PID/root filesystem visibility but uses a Compose bridge
+network. Its network counters are not verified host-NIC traffic. CPU, memory,
+filesystem and uptime monitoring remain useful; do not infer physical NIC throughput
+from the network panel. Changing exporter network isolation is outside v1.0 scope.

@@ -1,40 +1,36 @@
 # v1.0.0 release checklist
 
-Assessment: **local handoff prepared; release tag and publication held**.
-Reviewed 2026-11-12 America/Montevideo (UTC evidence continues into Nov 13).
-Starting HEAD verified as `da25c7377cd0faabb260dbd2b5d7d9c2729490e8`.
-No remote exists. No `v1.0.0` tag conflict was found; no tag was created.
+Assessment: **ready for a local annotated tag; final commit/clean status reported in handoff**.
+Reviewed 2026-11-12 America/Montevideo. No tag or remote has been created.
 
-| Gate | State | Evidence/action |
+| Gate | State | Evidence |
 |---|---|---|
-| Six-panel dashboard configuration, seven expressions | Passed source review; historical live queries passed | dashboard-rc-audit.json; MONITORING.md |
-| Windows PowerShell diagnostics | Passed, user-executed 9/9, exit 0 | user-verification.json; raw runner JSON unavailable |
-| Visual dashboard inspection | Passed per user report; screenshot artifact unavailable | Historical observations in user-verification.json; do not fabricate image |
-| Grafana database, provisioning, dashboard and seven historical restored queries | Passed user-executed returned-archive drill; existing record reviewed | grafana-restore-verification.json; production snapshots match; cleanup true |
-| Encrypted off-device round trip and original archive integrity | Passed per user report | Exact archive and original SHA-256 match; not a Codex Windows transfer |
-| Independent protected recovery identity | Passed per user report | Passphrase-encrypted USB copy used to decrypt backup; matching SHA-256; safe storage confirmed |
-| Prior local config/state recovery and encryption tamper test | Passed historical evidence | config-restore.json; state-restore.json; backup-encryption-drill.json |
-| Three alert rules, Bash diagnostics and incident accuracy | Passed historical tests/review | release-candidate-audit.json; tests/alerts.yml; actual exporter exercise; labeled simulations |
-| Compose and source validation | Passed final-session checks | final-handoff-audit.json; shell syntax, AST and JSON checks |
-| Final live validation and effective private/authenticated access | **Blocked by session socket permissions** | Trusted local operator must run scripts/validate.sh, verify loopback bindings/no exporter host ports and unauthenticated dashboard HTTP 401 |
-| Full local history/security audit | **Publication hold** | No matching secret material found; unnecessary private LAN address remains in historical runbooks; current instructions sanitized |
-| Historical sanitization and repeat audit | **Requires explicit history-rewrite decision** | See SECURITY.md; do not publish original refs/history |
-| Professional docs, installation, evidence, security, limits and roadmap | Prepared | README; docs guides/runbooks; fresh-host procedure not independently rehearsed |
-| Release notes and version identifier | Prepared, draft v1.0.0 | releases/v1.0.0.md; no application/package version manifest |
-| Final local commit and clean tree | Recorded in final handoff commit | Documentation and non-sensitive evidence committed; working tree checked after commit |
-| Local annotated v1.0.0 tag | **Held until mandatory gates pass** | Recheck conflict after sanitization; procedure in release notes |
-| GitHub repository creation/push | **Not authorized** | Separate explicit user authorization required after security hold closes |
+| Five-commit historical privacy rewrite | Passed; two historical blobs sanitized, meaningful sequence preserved | SECURITY.md; external protected recovery bundle and map |
+| Complete history/object and metadata review | Passed; no matching remaining sensitive material; Git integrity verified | evidence/final-quality-audit.json; source privacy guard |
+| Compose, Prometheus and three alert rules | Passed in final Codex session | scripts/validate.sh; tests/alerts.yml |
+| Bash diagnostics and backup failures | 12 live diagnostic cases and 3 isolated failure-path cases passed | final-quality-audit.json; tests/backup-failures.sh |
+| Current system observations | User reports seven targets UP, four probes successful, no alerts, healthy DB and four services running; Compose accepted | evidence/user-final-live.json; Nov 12 user-executed |
+| Independent live health/access boundaries | Passed after approved socket access; same health counts, loopback ports, no exporter publication, dashboard HTTP 401 | evidence/final-quality-live.json; Codex-executed |
+| Dashboard reproducibility | Six source panels, seven expressions; historical queries and current isolated restoration passed | dashboard JSON; final-quality-restore.json |
+| Windows PowerShell diagnostics | Historical user-executed 9/9, exit 0; no new Windows execution | evidence/user-verification.json; original runner JSON unavailable |
+| Real alert exercise and failure simulations | Historical firing/recovery retained; HTTP/TCP/DNS simulations labeled | incident reports; target-down.json |
+| Encrypted off-device and USB recovery | Passed per historical user report; matching original archive SHA-256 | user-verification.json; returned restore record |
+| Updated isolated restoration harness | Passed final Codex regression; seven historical queries, cleanup, unchanged production | evidence/final-quality-restore.json |
+| YAML/JSON, Bash syntax, Python AST, links, dashboard inventory | Passed locally | scripts/check-source.py; final-quality-audit.json |
+| README, runbooks, provenance and limitations | Reviewed and updated | README; TEST-EVIDENCE.md; LIMITATIONS.md |
+| Clean-checkout procedure | Documented/static review; separate clean-host rehearsal not performed | runbooks/installation.md |
+| CI workflow | Configured; real hosted run pending, no passing claim | .github/workflows/quality.yml; QUALITY.md |
+| Visual screenshot | Historical user inspection accepted; image missing and omitted | TEST-EVIDENCE.md; no invented image |
+| Final commit/clean tree | Final quality changes committed; hash/clean result reported in handoff | Git status, log and fsck |
+| Local v1.0.0 tag | Ready once committed/clean; deliberately left uncreated for handoff | releases/v1.0.0.md |
+| Remote repository/push | Not created; publication requires separate authorization | No remote configured |
 
-The screenshot and raw Windows JSON are missing artifacts, not invented failures
-of the user-executed tests. Results are accepted at their reported provenance level;
-no Codex visual or Windows execution claim is made.
+No remaining mandatory functional/security blocker was found. The missing screenshot,
+raw Windows JSON, unexecuted hosted CI and separate-host rehearsal are transparent
+evidence limits; they are not claimed as completed tests.
 
-The defective battery, manual LUKS unlock, absence of automatic power restoration,
-deferred centralized logging, lack of independently verified offsite storage and
-manual backups with no guaranteed RPO/RTO are accepted lab limitations, not new
-infrastructure tasks or automatic v1.0 blockers. Full inventory: LIMITATIONS.md.
-
-After history remediation, retain sanitized audit results, rerun non-disruptive
-live validation, update this checklist and release notes, commit, verify a clean
-working tree, and create the local tag. Do not repeat historical outages or change
-SSH, LUKS, Wi-Fi, firewall, boot configuration or unrelated applications.
+Accepted v1.0 limits: manual encrypted-disk unlock after power loss, defective
+battery, no automatic power restoration, centralized logging deferred, manual
+backup scheduling, no guaranteed RPO/RTO and no independently verified geographically
+separate offsite backup. Local-only alerting, exporter network-namespace scope and
+manual disk/log capacity management also remain explicit in LIMITATIONS.md.

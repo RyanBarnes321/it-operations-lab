@@ -12,3 +12,12 @@
 *.log
 *.sqlite*
 *.db
+
+# Never publish history-recovery or local audit artifacts.
+*.bundle
+*.age
+*.tar
+*.tar.gz
+/windows-verification.json
+__pycache__/
+.venv/

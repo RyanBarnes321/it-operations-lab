@@ -6,8 +6,8 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 umask 077
 archive=$(mktemp "$1/lab-config-XXXXXXXX.tar.gz")
-trap 'rm -f -- "$archive"' ERR
-tar -czf "$archive" compose.yaml monitoring automation scripts tests docs README.md .gitignore .env.example LICENSE
+trap 'rm -f -- "$archive" "$archive.sha256"' ERR
+tar -czf "$archive" compose.yaml monitoring automation scripts tests docs README.md .gitignore .env.example LICENSE .github requirements-quality.txt
 sha256sum "$archive" > "$archive.sha256"
 # Verify compressed stream, archive structure and checksum before reporting success.
 gzip -t "$archive"

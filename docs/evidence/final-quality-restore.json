@@ -1,0 +1,29 @@
+{
+  "timestamp": "2026-11-13T01:37:09.476479+00:00",
+  "provenance": "Codex-executed final regression of updated restore harness; existing local historical archive, no repeated off-device transfer or USB recovery",
+  "method": "restored Grafana and Prometheus copies on dedicated internal Docker network; no published ports; no production volumes",
+  "sha256_verified": true,
+  "health": {
+    "database": "ok",
+    "version": "13.3.1",
+    "commit": "da3aa3ff574e7dbbf808c66b6daa744defed0441"
+  },
+  "dashboard": {
+    "uid": "dell-lab-overview",
+    "panels": 6,
+    "provisioned": true
+  },
+  "queries_nonempty": 7,
+  "evaluation_times": [
+    1794423475.16559
+  ],
+  "production_unchanged": true,
+  "production_health_after": {
+    "database": "ok",
+    "version": "13.3.1",
+    "commit": "da3aa3ff574e7dbbf808c66b6daa744defed0441"
+  },
+  "cleanup_verified": true,
+  "temporary_containers_unprivileged": true,
+  "harness_sha256": "21310e5532c382aaf54e5bb526cf9413704ef0a6d1f844553bdae0299828a0e2"
+}

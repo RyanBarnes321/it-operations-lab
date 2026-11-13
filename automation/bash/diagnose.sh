@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Dependencies: bash, curl, coreutils, getent; docker for docker mode.
 # Exit: 0 healthy, 1 failed check, 2 usage error. No remediation.
-set -uo pipefail
+set -euo pipefail
 usage() { echo 'Usage: diagnose.sh host | docker | http URL | dns NAME | tcp HOST PORT' >&2; exit 2; }
 [[ $# -gt 0 ]] || usage
 mode=$1; shift

@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
 """Offline-backup drill; stdlib only. Creates/removes only uniquely named test containers/network."""
-import sys, os, base64, datetime, hashlib, json, pathlib, subprocess, tarfile, tempfile, time, urllib.parse, urllib.request, uuid
+import argparse, os, base64, datetime, hashlib, json, pathlib, subprocess, tarfile, tempfile, time, urllib.parse, urllib.request, uuid
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-archive = pathlib.Path(sys.argv[1]).resolve() if len(sys.argv) == 2 else ROOT / 'backups/lab-state-PlVe4Kg0.tar.gz'
-if len(sys.argv) > 2: raise SystemExit('Usage: verify-grafana-restore.py [archive-with-sha256-sidecar]')
-output = ROOT / 'docs/evidence/grafana-restore-verification.json'
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('archive', type=pathlib.Path, help='trusted state archive with .sha256 sidecar')
+parser.add_argument('--evaluation-time', help='ISO-8601 healthy snapshot within the archive TSDB retention window')
+parser.add_argument('--output', type=pathlib.Path, default=ROOT/'runtime/restore-verification.json')
+args = parser.parse_args()
+archive = args.archive.resolve()
+output = args.output.resolve()
+def require(condition, message):
+    if not condition:
+        raise RuntimeError(message)
 def cmd(*args):
-    return subprocess.check_output(args, text=True, stderr=subprocess.PIPE).strip()
+    return subprocess.check_output(args, text=True, stderr=subprocess.PIPE, cwd=ROOT).strip()
 def inspect(name):
     return json.loads(cmd('docker', 'inspect', name))[0]
 def production():
@@ -21,7 +28,9 @@ def get(url, credential=None):
     with urllib.request.build_opener(urllib.request.ProxyHandler({})).open(urllib.request.Request(url, headers=headers), timeout=3) as r:
         return json.load(r)
 expected = archive.with_name(archive.name+'.sha256').read_text().split()[0]
-assert hashlib.sha256(archive.read_bytes()).hexdigest() == expected
+with archive.open("rb") as stream:
+    require(hashlib.file_digest(stream, "sha256").hexdigest() == expected, "Archive SHA-256 mismatch")
+require((ROOT/"backups").is_dir(), "Create a private mode-700 backups directory first")
 before = production()
 name = 'lab-restore-'+uuid.uuid4().hex[:10]
 containers = []
@@ -74,14 +83,17 @@ with tempfile.TemporaryDirectory(prefix='grafana-drill-', dir=ROOT/'backups') as
         credential = base64.b64encode(('admin:'+(source/'secrets/grafana_admin_password').read_text().strip()).encode()).decode()
         ds = get(base+'/api/datasources/uid/prometheus', credential)
         dash = get(base+'/api/dashboards/uid/dell-lab-overview', credential)
-        assert ds['uid']=='prometheus' and dash['meta']['provisioned']
+        require(ds['uid']=='prometheus' and dash['meta']['provisioned'], 'Restored datasource/dashboard not provisioned')
         record.update(health=health, datasource={'uid':ds['uid'],'url':ds['url']}, dashboard={'uid':dash['dashboard']['uid'],'panels':len(dash['dashboard']['panels']),'provisioned':True}, queries=[])
-        snapshot_time = datetime.datetime.fromisoformat(json.loads((ROOT/'docs/evidence/dashboard-validation.json').read_text())['timestamp']).timestamp()
+        snapshot = args.evaluation_time or json.loads((ROOT/'docs/evidence/dashboard-validation.json').read_text())['timestamp']
+        instant = datetime.datetime.fromisoformat(snapshot)
+        require(instant.tzinfo is not None, 'Evaluation time must include timezone')
+        snapshot_time = instant.timestamp()
         for panel in dash['dashboard']['panels']:
             for target in panel['targets']:
                 query = urllib.parse.urlencode({'query':target['expr'],'time':snapshot_time})
                 data = get(base+'/api/datasources/proxy/uid/prometheus/api/v1/query?'+query, credential)
-                assert data['status']=='success' and data['data']['result'], panel['title']
+                require(data['status']=='success' and data['data']['result'], 'Empty restored query: '+panel['title'])
                 record['queries'].append({'panel':panel['title'],'expression':target['expr'],'evaluation_time':snapshot_time,'results':data['data']['result']})
         record['temporary_containers_unprivileged'] = {n:inspect(n)['Config']['User'] for n in containers}
     finally:
@@ -89,9 +101,11 @@ with tempfile.TemporaryDirectory(prefix='grafana-drill-', dir=ROOT/'backups') as
             subprocess.run(['docker','rm','-f',container],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,check=False)
         if network_created: cmd('docker','network','rm',name)
 record['production_after'] = production()
-assert before == record['production_after'], 'Production state changed during drill'
+require(before == record['production_after'], 'Production state changed during drill')
 record['production_health_after'] = get('http://127.0.0.1:3000/api/health')
-assert record['production_health_after']['database']=='ok'
+require(record['production_health_after']['database']=='ok', 'Production Grafana health failed')
 record['cleanup_verified'] = all(n not in cmd('docker','ps','-a','--format','{{.Names}}').splitlines() for n in containers)
+require(record['cleanup_verified'], 'Temporary container cleanup failed')
+output.parent.mkdir(parents=True, exist_ok=True)
 output.write_text(json.dumps(record,indent=2)+'\n')
-print('PASS: restored Grafana database, provisioning, dashboard, seven historical queries; cleanup and unchanged production verified')
+print(f"PASS: restored Grafana database, provisioning, dashboard, {len(record['queries'])} historical queries; cleanup and unchanged production verified")

@@ -57,3 +57,19 @@ through trusted SSH to private staging for recovery verification. Same-house
 Windows storage is off-device, not independently verified offsite protection.
 See [backup procedure](../runbooks/off-device-backup.md) and
 [evidence attribution](../TEST-EVIDENCE.md).
+
+## Dependencies and namespace scope
+
+Grafana queries `http://prometheus:9090`; Prometheus scrapes service DNS names
+(`node-exporter:9100`, `blackbox:9115`, and `prometheus:9090`). Blackbox probes
+Grafana port 3000 and Prometheus port 9090 using HTTP and TCP. Compose supplies DNS;
+no fixed host/LAN address is required. There is no startup-order guarantee or
+`depends_on` health gating: scrapes and probes retry, and installation acceptance
+waits for readiness and rate samples. Grafana provisioning refers to a stable
+Prometheus datasource UID, not a host IP.
+
+Node Exporter uses host PID/root filesystem access with bridge networking. Network
+counters reflect its network namespace, not verified physical host NIC counters.
+The four memory limits total 2 GiB; 15-day metric retention is appropriate for
+a small lab but is not a byte quota. Backups, TSDB growth and Docker logs require
+manual disk-capacity monitoring. There is no configured CPU quota.

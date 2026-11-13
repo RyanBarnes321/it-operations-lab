@@ -1,0 +1,79 @@
+{
+  "recorded_at_utc": "2026-11-13T01:42:47.123824+00:00",
+  "local_review_date": "2026-11-12 America/Montevideo",
+  "starting_head": "444895fc0f5c6e103f20d6a6a8d64ac1c803d146",
+  "sanitized_history_head_before_quality_commit": "3ee7829a39de27135f248c4827979fda615fcc3c",
+  "privacy": {
+    "starting_tree_clean": true,
+    "verified_external_recovery_bundle": true,
+    "recovery_directory_mode": "700",
+    "recovery_bundle_mode": "600",
+    "recovery_storage": "private local temporary directory outside publication repository; retain privately in durable storage if needed",
+    "historical_commits_preserved": 5,
+    "changed_historical_blobs": 2,
+    "changed_paths": [
+      "docs/runbooks/off-device-backup.md",
+      "docs/runbooks/windows-verification.md"
+    ],
+    "author_dates_messages_modes_sequence_preserved": true,
+    "only_specified_address_replacement_in_rewritten_trees": true,
+    "old_reflogs_and_unreachable_objects_pruned": true,
+    "complete_object_inventory_before_quality_commit": {
+      "blob": 69,
+      "tree": 41,
+      "commit": 5
+    },
+    "binary_blobs": 0,
+    "remaining_original_address_matches": 0,
+    "credential_pattern_findings": "none; limited pattern/content review, not universal absence proof",
+    "personal_operator_metadata_findings": "none; local service identities, technical paths, upstream contacts and diagnostic IDs retained",
+    "private_secret_contents_displayed_or_collected": false,
+    "other_portfolio_repositories_modified": false
+  },
+  "checks": {
+    "compose_config": true,
+    "prometheus_config_and_three_rules": true,
+    "alert_rule_fixtures_delay_firing_recovery": true,
+    "bash_diagnostic_cases_passed": 12,
+    "isolated_backup_failure_cases_passed": 3,
+    "configuration_backup_roundtrip_all_source_files_identical": true,
+    "configuration_backup_includes_ci_and_quality_requirements": true,
+    "configuration_backup_excludes_secret_runtime_git_content": true,
+    "updated_isolated_application_restore": "passed; see final-quality-restore.json",
+    "git_fsck_full": true,
+    "git_diff_check": true,
+    "source_validator": "passed; counts recorded below",
+    "compose_config_from_source_only_temporary_copy_without_secrets": true
+  },
+  "live_checks": "final-quality-live.json (Codex) and user-final-live.json (user), separately attributed",
+  "not_executed": [
+    "GitHub Actions hosted workflow",
+    "separate clean-host deployment",
+    "current Windows PowerShell run",
+    "ShellCheck",
+    "fresh vulnerability scan",
+    "power-loss/reboot recovery",
+    "new Windows transfer or USB recovery test"
+  ],
+  "source_sha256": {
+    "automation/bash/diagnose.sh": "a79a85cae525d4f49e996289ca32fa96ef67f97fbb2eeb91d935edea5f9cdd70",
+    "scripts/backup-config.sh": "c7b8730e61b76d610baafa7c3610a0c0da646b4bea7cce535b1a28fb176952c4",
+    "scripts/backup-state.sh": "cdbd4edf13fcdfdd96e6df94e56cd050fd2d1963623d39b283dda774d338fa9c",
+    "scripts/validate.sh": "2052116ebd98e65596b79d0d8b62a8e1ab427ff61c52b471a56c0ee60c96b081",
+    "scripts/verify-grafana-restore.py": "21310e5532c382aaf54e5bb526cf9413704ef0a6d1f844553bdae0299828a0e2",
+    "scripts/check-source.py": "c9fb0e50a85f712cc8b31a95953acbf55a4edaf4a8367a6392c9ecebfd9a6d27",
+    "tests/backup-failures.sh": "b29c3aeed97047e1cce4402e6496d7f56a0b53d835f6347fa126d54945e7a340",
+    ".github/workflows/quality.yml": "e7ec58472d2f784ceea62d9be6dbc6011431f09e00375c679c5aeb64d1e7fa5a",
+    "requirements-quality.txt": "01e08410080741c1f164e3b7459ea15db5966cef6629bfeb2691175f269efd00"
+  },
+  "remote_count": 0,
+  "release_tag_created": false,
+  "release_assessment": "ready for local tagging after final commit and clean-tree verification; final commit hash reported in handoff",
+  "source_validation_counts": {
+    "json": 17,
+    "yaml": 8,
+    "python": 2,
+    "shell": 6,
+    "local_links": 78
+  }
+}

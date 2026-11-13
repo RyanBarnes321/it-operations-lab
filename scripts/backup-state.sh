@@ -10,10 +10,13 @@ cd "$(dirname "$0")/.."
 umask 077
 work=$(mktemp -d "$2/.state-XXXXXXXX")
 services=()
+archive=
+complete=false
 cleanup() {
  local result=$?
  trap - EXIT
  if ((${#services[@]})); then docker compose start "${services[@]}" || result=1; fi
+ if [[ $complete == false && -n $archive ]]; then rm -f -- "$archive" "$archive.sha256"; fi
  rm -rf -- "$work"
  exit "$result"
 }
@@ -34,4 +37,5 @@ archive=$(mktemp "$2/lab-state-XXXXXXXX.tar.gz")
 tar --numeric-owner -czf "$archive" -C "$work" .
 gzip -t "$archive"
 sha256sum "$archive" > "$archive.sha256"
+complete=true
 printf '%s\n' "$archive"

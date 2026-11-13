@@ -56,7 +56,8 @@ Grafana database password. Preserve the secret key across state recovery.
 Wait at least five minutes for rate metrics. Confirm all four containers run,
 seven scrape targets are UP, four `probe_success` series are 1 and no alerts remain
 active. Use an SSH tunnel as shown in the README. Confirm the six-panel dashboard
-and network receive/transmit lines. Its scrape-health panel deliberately displays
+and network receive/transmit lines (exporter bridge namespace, not verified host-NIC
+traffic). Its scrape-health panel deliberately displays
 two original targets, not the full seven-target inventory.
 
 Check `docker compose port grafana 3000` and `docker compose port prometheus 9090`

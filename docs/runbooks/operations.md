@@ -1,8 +1,8 @@
 # Operations, installation and recovery
 
 For a new host, follow [fresh installation](installation.md). This runbook covers
-the deployed stack and maintenance. Final-session live checks were blocked by
-execution-environment socket restrictions; earlier live results are historical.
+the deployed stack and maintenance. Final quality-pass live checks succeeded after
+authorized socket access; the earlier handoff restrictions are historical.
 See [release checklist](../RELEASE-CHECKLIST.md).
 
 ## Validate and troubleshoot
@@ -15,7 +15,7 @@ acceptance. A healthy scrape of Blackbox does not imply a healthy probe.
 Dashboard UID and datasource UID are `dell-lab-overview` and `prometheus`.
 
 CPU uses idle rate over five minutes; RAM uses MemAvailable; root disk uses
-available/size (includes reserved-space effects); network excludes virtual devices;
+available/size (includes reserved-space effects); network excludes virtual devices but reflects the exporter bridge namespace, not verified host-NIC traffic;
 uptime is time minus boot time. New deployments need enough samples for rates.
 Zero traffic is valid. `up` tests scraping, not application business functionality.
 
@@ -80,7 +80,8 @@ future; no boot, encryption, firmware or power settings were changed.
 mode-700 existing directory. It checks both services are running, stops only
 Grafana and Prometheus, copies their data and source/secrets, then creates a
 mode-600 gzip archive plus checksum. An EXIT handler restarts services and removes
-working copies. Allow a maintenance window; monitoring has a gap while stopped.
+working copies. Failed/incomplete archive output is removed; valid completed backups
+are retained even if restarting a service fails. Allow a maintenance window; monitoring has a gap while stopped.
 An uncatchable kill or power loss requires manual `docker compose start grafana
 prometheus`. Check available space first: working copy plus compressed archive
 requires additional capacity. There is no automatic pruning; monitor backup space.
@@ -96,16 +97,19 @@ the user-executed off-device return-restore also passed. See the repeatable dril
 
 ## Repeat Grafana application restoration without touching production
 
-The existing backup is `backups/lab-state-PlVe4Kg0.tar.gz`. This is sensitive and
-root-readable only. Run from the project as an authorized local administrator:
+If the ignored project `backups/` directory is absent, first create it with
+`mkdir -m 700 backups` from the project root; keep it private.
+Use your own trusted archive and matching SHA-256 sidecar. The historical tested
+generation is `backups/lab-state-PlVe4Kg0.tar.gz`; it is private and absent from a
+clean checkout. Run as an authorized local administrator:
 
 ```sh
-python3 scripts/verify-grafana-restore.py
-# Optional: supply a returned copy with matching .sha256 sidecar:
-# python3 scripts/verify-grafana-restore.py /private/staging/returned-state.tar.gz
+python3 scripts/verify-grafana-restore.py /private/staging/returned-state.tar.gz
+# For a new backup, use a known healthy instant within its retained TSDB data:
+# append: --evaluation-time 2026-11-12T18:00:00+00:00
 ```
 
-The stdlib Python 3 harness checks the stored SHA256, extracts with the safe data
+The stdlib Python 3.12+ harness checks the stored SHA256 using a streaming hash, extracts with the safe data
 filter into a private temporary directory under ignored backups, creates uniquely
 named Grafana/Prometheus containers and a dedicated **internal** bridge, publishes
 no ports, and mounts only restored copies. Production containers are not attached
@@ -123,8 +127,9 @@ test containers/networks were cleaned up.
 Health verifies the restored Grafana database. Authenticated API calls verify the
 provisioned datasource and six-panel dashboard; seven expressions execute through
 the restored datasource against restored Prometheus. Because the backup is old,
-queries use the known healthy timestamp from dashboard-validation.json, not current
-time. An initial timestamp near the prior failure exercise returned an empty memory
+queries default to the known healthy timestamp from dashboard-validation.json.
+For another archive, explicitly supply its healthy timezone-aware `--evaluation-time`;
+the example timestamp above is illustrative, not evidence of a sample in your archive. An initial timestamp near the prior failure exercise returned an empty memory
 series; choosing the recorded healthy snapshot avoids confusing historic gaps with
 restore failure. Uptime at a historic evaluation instant is historical uptime, not
 current host uptime. No current-availability claim is made from restored data.
@@ -133,7 +138,10 @@ The finally handler removes only the uniquely named temporary containers/network
 TemporaryDirectory removes only the temporary extracted copies. The original archive
 is retained. The recorded production container IDs, start times, restart counters
 and running states are identical before and after, and production Grafana health is
-checked again after test shutdown. Evidence: grafana-restore-verification.json.
+checked again after test shutdown. New runs write ignored `runtime/restore-verification.json` by default (`--output`
+can select another private path); they do not overwrite historical committed evidence.
+Historical evidence: grafana-restore-verification.json. The final harness regression
+is summarized in final-quality-restore.json under the evidence directory.
 This drill checks application/API behavior; it does not replace visual rendering
 inspection. The user reports both visual inspection and off-device recovery
 complete; see [evidence](../TEST-EVIDENCE.md) for provenance and the missing image.

@@ -1,0 +1,15 @@
+{
+  "reported_execution_date": "2026-11-12",
+  "date_timezone": "America/Montevideo",
+  "recorded_at_utc": "2026-11-13T01:37:55.404296+00:00",
+  "provenance": "User-executed final live checks reported in the final security/portfolio request; exact command timestamps and raw output not supplied",
+  "scope": "Existing Dell deployment, point-in-time system observations; not historical recovery evidence and not Codex-executed checks",
+  "results": {
+    "prometheus_targets_up": 7,
+    "blackbox_probes_successful": 4,
+    "active_alerts": 0,
+    "grafana_database": "healthy",
+    "docker_services_running": 4,
+    "compose_config_validation": "completed without error"
+  }
+}

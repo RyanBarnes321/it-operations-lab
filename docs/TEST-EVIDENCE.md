@@ -28,7 +28,7 @@ Its archive identifier is `returned-state.tar.gz`; timestamp is
 rerunning the drill or changing its contents. Before/after production snapshots
 match, Grafana database health is `ok`, six provisioned panels and seven nonempty
 historical query results are recorded, and cleanup is true. The earlier same-disk
-Grafana drill remains available in commit `da25c7377cd0faabb260dbd2b5d7d9c2729490e8`.
+Grafana drill remains available in commit `38637e3ce15d718e290fb10f7ef863a352b90c0d`.
 The JSON alone does not prove the Windows transfer; that claim is user-attributed.
 
 The visual observation record reports CPU ~2.28%, RAM ~8.23%, root usage ~7.63%,
@@ -41,3 +41,23 @@ restore result, which is included with its provenance above. Earlier `false` or
 "not tested" fields describe the scope at their recorded time; later reports do
 not retroactively change those results. A future screenshot should be cropped and
 reviewed for account, network and credential details before inclusion.
+
+## Final security and quality pass — 2026-11-12 local date
+
+The earlier handoff audit and its socket/publication holds above describe that
+recorded session. The final pass supersedes those holds without editing the old
+evidence. UTC recording timestamps may be Nov 13 (America/Montevideo is UTC−03).
+
+| Check | Result and provenance | Artifact |
+|---|---|---|
+| User final live checks | User-executed Nov 12: seven targets UP, four probes successful, no active alerts, healthy Grafana DB, four services running, Compose config accepted; exact execution time/raw output absent | [user-final-live.json](evidence/user-final-live.json) |
+| Independent final live checks | Codex, after authorized socket access: same health counts, loopback-only published ports, no exporter host ports, unauthenticated dashboard HTTP 401 | [final-quality-live.json](evidence/final-quality-live.json) |
+| Updated validation suite | Codex: Prometheus configuration, three alert-rule delay/firing/recovery tests, twelve Bash cases and three backup failure-path cases passed | [final-quality-audit.json](evidence/final-quality-audit.json) |
+| Updated isolated restore harness | Codex regression against the existing local archive; no new Windows transfer or USB test | [final-quality-restore.json](evidence/final-quality-restore.json) |
+| Source and privacy checks | YAML/JSON, shell syntax, Python AST, local file links, dashboard inventory and full reachable-history privacy guard; complete object review and Git integrity | [final-quality-audit.json](evidence/final-quality-audit.json) |
+| GitHub Actions | Added, no real workflow run yet; no passing CI claim | [quality workflow](../.github/workflows/quality.yml) |
+
+No separate clean-machine deployment, current Windows execution, fresh vulnerability
+scan, ShellCheck run, power-recovery test or new screenshot was performed. Network
+throughput evidence reflects the exporter bridge namespace; it does not establish
+physical host NIC throughput. Historical restoration evidence remains historical.

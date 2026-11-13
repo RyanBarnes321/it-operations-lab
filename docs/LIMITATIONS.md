@@ -29,6 +29,8 @@
   performance benchmark or enterprise disaster-recovery claims.
 - The user's dashboard screenshot and original Windows runner JSON are not
   available in this checkout. Reported results remain clearly attributed.
-- Release preparation identified a historical private LAN address and session
-  restrictions on final live checks. These are tracked as release holds in the
-  [checklist](RELEASE-CHECKLIST.md), separate from accepted lab limitations above.
+- Node Exporter uses bridge networking; network counters reflect the exporter
+  namespace, not verified host NIC traffic. Host CPU, memory, filesystem and uptime
+  metrics remain in scope.
+- CI is configured but has not run on GitHub. Source checks do not prove hosted
+  runner compatibility or absence of every possible secret/vulnerability.

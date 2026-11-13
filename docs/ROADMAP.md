@@ -2,7 +2,7 @@
 
 These are proposals, not implemented features or v1.0 promises.
 
-1. Close the [release holds](RELEASE-CHECKLIST.md), then obtain explicit permission
+1. Review the passed [release gates](RELEASE-CHECKLIST.md), then obtain explicit permission
    before creating a remote or pushing. Add the real, reviewed screenshot if recovered.
 2. Evaluate power reliability: replacement battery or available UPS, firmware power
    restoration support and a documented reboot drill. Boot/LUKS changes need their

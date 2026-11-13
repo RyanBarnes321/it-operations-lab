@@ -8,3 +8,4 @@ for script in automation/bash/*.sh scripts/*.sh tests/*.sh; do
   bash -n "$script"
 done
 ./tests/diagnostics.sh
+./tests/backup-failures.sh

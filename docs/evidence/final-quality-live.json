@@ -1,0 +1,57 @@
+{
+  "recorded_at_utc": "2026-11-13T01:15:29.189456+00:00",
+  "provenance": "Codex-executed read-only live checks after approved Docker/socket access; no restart or configuration change",
+  "targets_total": 7,
+  "targets_up": 7,
+  "probes_total": 4,
+  "probes_successful": 4,
+  "active_alerts": 0,
+  "grafana_health": {
+    "database": "ok",
+    "version": "13.3.1",
+    "commit": "da3aa3ff574e7dbbf808c66b6daa744defed0441"
+  },
+  "unauthenticated_dashboard_status": 401,
+  "services": {
+    "blackbox": {
+      "running": true,
+      "published_ports": {},
+      "memory_limit_bytes": 134217728
+    },
+    "grafana": {
+      "running": true,
+      "published_ports": {
+        "3000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "3000"
+          }
+        ]
+      },
+      "memory_limit_bytes": 1073741824
+    },
+    "node-exporter": {
+      "running": true,
+      "published_ports": {},
+      "memory_limit_bytes": 134217728
+    },
+    "prometheus": {
+      "running": true,
+      "published_ports": {
+        "9090/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "9090"
+          }
+        ]
+      },
+      "memory_limit_bytes": 805306368
+    }
+  },
+  "validation": {
+    "compose_config": true,
+    "prometheus_config": true,
+    "three_alert_rules_delay_firing_recovery": true,
+    "bash_diagnostics_passed": 12
+  }
+}
