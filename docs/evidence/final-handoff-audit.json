@@ -1,0 +1,107 @@
+{
+  "recorded_at_utc": "2026-11-13T00:11:54.168407+00:00",
+  "reviewed_head_before_handoff_commit": "da25c7377cd0faabb260dbd2b5d7d9c2729490e8",
+  "initial_object_inventory": {
+    "commits": 4,
+    "blobs": 51,
+    "trees": 35
+  },
+  "objects_examined_this_pass": {
+    "blob": 51,
+    "tree": 35,
+    "commit": 4
+  },
+  "scope": "All local Git objects via cat-file --batch-all-objects; refs/reflogs path mapping; current tracked and nonignored candidate files. Pattern/content/config review, not universal secret detection or vulnerability attestation.",
+  "scan_categories": [
+    "private_identity",
+    "authentication_token",
+    "credential_assignment",
+    "credential_url",
+    "private_ipv4",
+    "email"
+  ],
+  "historical_findings_without_values": [
+    {
+      "object": "4cc61152cea6ce17e7db16657e993e19a988f549",
+      "path": "docs/evidence/final-state.json",
+      "category": "email",
+      "line_numbers": [
+        87
+      ]
+    },
+    {
+      "object": "5244a22b815d3bdd467fdff412221f37dcc01cf0",
+      "path": "docs/evidence/final-state.json",
+      "category": "email",
+      "line_numbers": [
+        87
+      ]
+    },
+    {
+      "object": "9c43a7d7d20dab50effad17e94b5582d42c1eae2",
+      "path": "docs/runbooks/windows-verification.md",
+      "category": "private_ipv4",
+      "line_numbers": [
+        13,
+        14,
+        49
+      ]
+    },
+    {
+      "object": "edc36c24d83e6bb21fd2651e48b4c76f784d4008",
+      "path": "docs/runbooks/off-device-backup.md",
+      "category": "private_ipv4",
+      "line_numbers": [
+        80,
+        82
+      ]
+    }
+  ],
+  "historical_findings_disposition": "Private IPv4 in two historical runbooks: publication hold. Email matches in final-state.json are upstream container maintainers. Current runbooks use placeholders; history remains unchanged.",
+  "current_tree_findings_without_values": [
+    {
+      "path": "docs/evidence/final-state.json",
+      "category": "email"
+    }
+  ],
+  "private_identity_or_passphrase_accessed": false,
+  "live_grafana_secret_contents_read": false,
+  "tracked_historical_sensitive_runtime_paths": 0,
+  "binary_blobs": 0,
+  "world_writable_candidate_files": 0,
+  "secret_and_backup_parent_modes": "700, root-owned; Grafana mounted secret files 444; contents not read",
+  "checks": {
+    "compose_config": true,
+    "shell_syntax": {
+      "automation/bash/diagnose.sh": true,
+      "scripts/backup-config.sh": true,
+      "scripts/backup-state.sh": true,
+      "scripts/validate.sh": true,
+      "tests/diagnostics.sh": true
+    },
+    "restore_python_ast": true,
+    "evidence_json_parsing": true,
+    "dashboard_six_panels_seven_expressions": true,
+    "returned_restore_record_consistency": true,
+    "git_fsck_full": true,
+    "git_diff_check": true,
+    "local_markdown_link_targets": {
+      "checked": 63,
+      "missing": 0
+    }
+  },
+  "live_validation": {
+    "command": "./scripts/validate.sh",
+    "result": "blocked at Docker daemon access; operation not permitted",
+    "loopback_grafana_http": "blocked; operation not permitted",
+    "current_effective_bindings_and_authentication_verified": false,
+    "historical_live_evidence": "release-candidate-audit.json",
+    "services_restarted_or_reconfigured": false
+  },
+  "user_executed_verification": "user-verification.json; not final-session execution",
+  "returned_restore_record_sha256": "592345efa1e4ca3c3fe09a933d8550391e07d07aff7828c920b8839287eaadc7",
+  "tag_conflict": false,
+  "tag_created": false,
+  "publication_status": "held; historical LAN address and outstanding live checks",
+  "remote_count": 0
+}

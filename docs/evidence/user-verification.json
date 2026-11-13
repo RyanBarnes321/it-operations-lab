@@ -1,0 +1,49 @@
+{
+  "recorded_at_utc": "2026-11-13T00:08:38.908499+00:00",
+  "source": "User-provided final v1.0 handoff; manually executed after release-candidate audit",
+  "activity_timestamps": "Not supplied; recording time is not execution or screenshot capture time",
+  "executed_by_final_codex_session": false,
+  "windows_powershell": {
+    "command": "pwsh -NoProfile -File .\\tests\\Verify-Windows.ps1",
+    "passed": 9,
+    "total": 9,
+    "exit_code": 0,
+    "coverage_reported": [
+      "success",
+      "DNS failure",
+      "TCP refusal",
+      "HTTP 404",
+      "invalid input handling"
+    ],
+    "original_runner_json_available": false
+  },
+  "grafana_visual": {
+    "source": "User-reported historical screenshot via SSH tunnel; image not available in checkout",
+    "codex_viewed_screenshot": false,
+    "functioning_panels": 6,
+    "cpu_percent_approx": 2.28,
+    "memory_percent_approx": 8.23,
+    "root_used_percent_approx": 7.63,
+    "uptime_minutes_approx": 39,
+    "displayed_scrape_targets_up": 2,
+    "network_receive_transmit_displayed": true,
+    "current_measurements": false
+  },
+  "off_device_recovery": {
+    "source": "User-executed encrypted Windows backup round trip; existing returned-archive JSON reviewed",
+    "returned_archive_original_sha256_match_reported": true,
+    "returned_archive_exact_match_reported": true,
+    "reported_script_output": "PASS: restored Grafana database, provisioning, dashboard, seven historical queries; cleanup and unchanged production verified",
+    "existing_evidence": "grafana-restore-verification.json",
+    "codex_independently_transferred_or_decrypted_backup": false
+  },
+  "usb_recovery": {
+    "source": "User report",
+    "passphrase_encrypted_identity_copy": true,
+    "backup_decryption_passed": true,
+    "plaintext_archive_sha256_match_reported": true,
+    "safe_storage_confirmed_by_user": true,
+    "identity_or_passphrase_inspected_or_collected": false
+  },
+  "offsite_storage_independently_verified": false
+}

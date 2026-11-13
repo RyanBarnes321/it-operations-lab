@@ -1,4 +1,9 @@
-# Windows verification — pending execution
+# Windows verification — repeatable procedure
+
+The user reports `pwsh -NoProfile -File .\tests\Verify-Windows.ps1` completed
+with nine of nine cases passed and exit 0. This final session did not execute on
+Windows; original runner JSON is not present. See [evidence](../TEST-EVIDENCE.md).
+The following procedure supports repeat verification.
 
 Run on the Windows desktop in **PowerShell 7** (`pwsh`), as a normal user. No
 Windows service, firewall, execution-policy, or system configuration changes are
@@ -10,8 +15,8 @@ Download only these source files over the existing LAN SSH connection:
 ```powershell
 $work = Join-Path $HOME 'it-lab-verification'
 New-Item -ItemType Directory -Force "$work\automation\powershell", "$work\tests" | Out-Null
-scp dell-lab@192.0.2.10:/opt/it-operations-lab/automation/powershell/Test-LabEndpoint.ps1 "$work\automation\powershell\"
-scp dell-lab@192.0.2.10:/opt/it-operations-lab/tests/Verify-Windows.ps1 "$work\tests\"
+scp '<lab-user>@<lab-address>:/opt/it-operations-lab/automation/powershell/Test-LabEndpoint.ps1' "$work\automation\powershell\"
+scp '<lab-user>@<lab-address>:/opt/it-operations-lab/tests/Verify-Windows.ps1' "$work\tests\"
 Set-Location $work
 pwsh -NoProfile -File .\tests\Verify-Windows.ps1 -EvidencePath .\windows-verification.json
 $verificationExit = $LASTEXITCODE
@@ -20,8 +25,8 @@ Get-Content .\windows-verification.json
 ```
 
 Verify the SSH host fingerprint through the already trusted connection; do not
-accept unexpected host-key changes. Substitute the current private address if DHCP
-has changed it. No credentials or secret backups are included in this transfer.
+accept unexpected host-key changes. Replace `<lab-user>` and `<lab-address>` with your own trusted SSH account
+and destination; no original Dell address is required. No credentials or secret backups are included in this transfer.
 
 The runner checks the entire current diagnostic inventory (one script), parses
 PowerShell syntax, and launches each test in its own child PowerShell process.
@@ -36,17 +41,23 @@ address, credential or full filesystem path is recorded.
 Expected runner exit: 0, nine cases with `passed: true`, syntaxPassed true. Exit 1
 means at least one mismatch. Fixture/infrastructure errors abort and require review;
 never manually edit evidence to turn a failure into a pass. Review the JSON before
-sharing it. Return the JSON and runner exit code to close this release gate. Compare
+sharing it. For a repeated run, retain reviewed JSON and the runner exit code. Compare
 the diagnostic SHA256 with `Get-FileHash` of the downloaded source. The fixture tests
 script behavior, not connectivity to the Dell; tunnel health remains a separate
 manual integration check below.
 
-# Visual dashboard verification — pending browser inspection
+# Visual dashboard verification — reported complete; image unavailable
 
-Keep a separate Windows terminal open with:
+The user reports six functioning panels through the SSH tunnel: CPU ~2.28%,
+memory ~8.23%, root usage ~7.63%, uptime ~39 minutes, both displayed targets UP,
+and network receive/transmit measurements. These are historical screenshot
+observations, not current measurements. The screenshot cannot be retrieved from
+this checkout; do not embed a substitute or claim Codex viewed it.
+
+For a repeated inspection, keep a separate Windows terminal open with:
 
 ```powershell
-ssh -N -o ExitOnForwardFailure=yes -L 3000:127.0.0.1:3000 -L 9090:127.0.0.1:9090 dell-lab@192.0.2.10
+ssh -N -o ExitOnForwardFailure=yes -L 3000:127.0.0.1:3000 -L 9090:127.0.0.1:9090 '<lab-user>@<lab-address>'
 ```
 
 Open `http://localhost:3000/d/dell-lab-overview`, sign in with the existing account,

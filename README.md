@@ -1,86 +1,99 @@
 # IT Operations & Automation Lab
 
-A permanently hosted Debian/Docker lab built to practice monitoring, Linux operations,
-troubleshooting, and incident response alongside two application engineering portfolio projects.
-Runs on a Dell i5-7200U with 15 GiB RAM and SSD storage. This is a single host,
-not a high availability system.
+A practical Debian and Docker operations portfolio: provision host monitoring,
+diagnose DNS/TCP/HTTP failures, investigate incidents, test alerts, and recover
+Grafana and Prometheus from an encrypted off-device backup.
 
-## Current implementation
+The lab runs on a Dell i5-7200U with 15 GiB RAM and SSD storage. It complements
+the author's Service Desk API and AI Document Processing API projects by showing
+the operational work around backend software: service health, Linux permissions,
+network troubleshooting, controlled changes, recovery, and evidence-based handoffs.
+Those applications are separate projects; neither is deployed or integrated here.
 
-Prometheus 2.55.1 collects host metrics from Node Exporter 1.8.2 every 15 seconds.
-Grafana 13.3.1 provisions Dell Lab Overview from JSON: CPU, memory, root disk,
-network receive/transmit, uptime and scrape health. Blackbox Exporter 0.27.0 probes
-Grafana and Prometheus over HTTP and TCP. Alert rules detect scrape/probe failures
-and root disk pressure. Alerts are visible in Prometheus; external notifications are
-not configured. Configuration and local backup tests do not constitute disaster recovery.
+**v1.0.0 handoff:** functional acceptance evidence is recorded, including
+user-executed Windows and recovery tests. Local release tagging is held for
+historical LAN-address sanitization and final live validation from an authorized
+host session. Nothing has been published. See the [release checklist](docs/RELEASE-CHECKLIST.md)
+and [draft release notes](docs/releases/v1.0.0.md).
 
-## Access and installation
+## What is implemented
 
-Requires Linux, Docker Engine and Compose v2, curl, Bash, GNU coreutils and getent.
-The four containers have a combined configured memory ceiling of 2 GiB. This is a
-ceiling, not measured usage; the Debian host and Docker also require memory.
-Grafana and Prometheus publish only on loopback. From your workstation:
+| Component | Pinned version | Purpose |
+|---|---|---|
+| Grafana | 13.3.1 | Provisioned six-panel dashboard; authenticated access |
+| Prometheus | 2.55.1 | 15-second scraping/evaluation; 15-day metric retention |
+| Node Exporter | 1.8.2 | Host CPU, memory, disk, uptime and network metrics |
+| Blackbox Exporter | 0.27.0 | HTTP and TCP availability probes |
 
-```sh
-ssh -L 3000:127.0.0.1:3000 -L 9090:127.0.0.1:9090 dell-lab@<lab-address>
-```
+Only Grafana and Prometheus publish host ports, on `127.0.0.1`. Access uses an
+existing authenticated SSH tunnel. Exporters use the Compose network. The four
+containers have a combined memory ceiling of 2 GiB; this is a configured bound,
+not measured consumption. The host and Docker need additional memory.
 
-Open http://localhost:3000 and sign in; dashboard UID is `dell-lab-overview`.
-For a fresh deployment, create `secrets/` mode 700 with two nonempty files,
-`grafana_admin_password` and `grafana_secret_key`, using unique random values.
-Protect their host access while ensuring the container user can read its mounted secrets.
-Do not replace existing credentials or volumes. Non-sensitive provisioning directories
-must be traversable and their files readable by container users (755/644).
+The [architecture diagram](docs/architecture/overview.md) shows service and backup
+flows. [Installation](docs/runbooks/installation.md) creates fresh credentials and
+volumes without depending on the original Dell's identity or LAN address.
+
+## Quick start
+
+On a Linux host with Docker Engine and Compose v2, complete the fresh secret-file
+setup in the [installation runbook](docs/runbooks/installation.md), then run:
 
 ```sh
 docker compose config -q
 docker compose up -d
-./automation/bash/diagnose.sh docker
-./tests/diagnostics.sh
-```
-
-See [operations](docs/runbooks/operations.md), [architecture](docs/architecture/overview.md),
-[progress](docs/PROGRESS.md), and [incident reports](docs/incidents/).
-
-## Automation and testing
-
-```sh
-./automation/bash/diagnose.sh host
-./automation/bash/diagnose.sh http http://127.0.0.1:3000/api/health
-./automation/bash/diagnose.sh dns localhost
-./automation/bash/diagnose.sh tcp localhost 3000
-pwsh -File automation/powershell/Test-LabEndpoint.ps1 -ComputerName localhost -Port 3000
 ./scripts/validate.sh
 ```
 
-Exit codes: 0 success, 1 failed check, 2 invalid arguments. Scripts never repair
-services automatically. PowerShell requires version 7; execution on Windows remains
-unverified. Evidence contains actual API results, not benchmark or availability claims.
-The dashboard API, seven instant queries and seven one-hour range queries were
-verified. Browser rendering and screenshots remain pending. Use the
-[Windows and visual verification procedure](docs/runbooks/windows-verification.md).
+From an authorized workstation, substitute your own SSH account and host:
 
-## Limitations and scope
+```sh
+ssh -N -o ExitOnForwardFailure=yes -L 3000:127.0.0.1:3000 -L 9090:127.0.0.1:9090 '<lab-user>@<lab-address>'
+```
 
-The defective battery provides no power protection. Power loss stops the host;
-manual LUKS unlock is required after reboot. Unattended recovery, automatic power-on,
-a UPS and independent backup storage are not established. Docker restart policies
-apply after Debian and Docker successfully start, not before disk unlock.
-Loki/Alloy are deferred to keep this release focused: existing Docker logs support
-local investigations, but are not centralized durable logging. No Service Desk API
-integration is deployed. See the progress record for remaining release gates.
+Open `http://localhost:3000/d/dell-lab-overview` and sign in with the fresh Grafana
+admin password. Prometheus is at `http://localhost:9090`. Never publish these ports
+to the LAN or Internet to make access easier.
 
-## Skills demonstrated
+## Demonstrated skills and evidence
 
-PromQL, provisioning, Docker networking, least exposure, bounded resources, Bash
-troubleshooting, alert testing, controlled failure investigation and honest evidence.
+- **Linux and Docker operations:** private service networking, secret-file mounts,
+  persistent volumes, resource limits and provisioning permission diagnosis.
+- **Observability:** PromQL, seven dashboard expressions across six panels, seven
+  scrape targets, four probes, and deterministic tests of three alert rules.
+- **Automation:** Bash and PowerShell diagnostics with documented exit codes,
+  bounded network checks and negative-input coverage.
+- **Incident response:** a historical Grafana permission failure, isolated
+  HTTP/TCP/DNS simulations, and an actual controlled exporter failure/recovery.
+- **Recovery:** consistent state archives, checksums, encryption and isolated
+  application restoration with production-state comparisons.
 
-Application-state backup and isolated restoration of Grafana and Prometheus have
-passed. Restored Grafana loaded its database, provisioned datasource and dashboard,
-and executed seven queries against restored historical metrics. Production containers
-and volumes were unaffected. Independent disaster recovery remains unverified.
+The user reports **9/9 Windows PowerShell tests passed, exit 0**, an encrypted
+Windows backup round trip with matching original SHA-256, successful isolated
+restoration, and a tested passphrase-encrypted USB recovery identity. These were
+user-executed checks, not Windows actions performed by the final Codex session.
 
-See the [v1.0 release checklist](docs/RELEASE-CHECKLIST.md),
-[restore verification](docs/evidence/grafana-restore-verification.json) and
-[off-device backup procedure](docs/runbooks/off-device-backup.md).
-This is a release candidate, not a completed v1.0 release.
+The user's historical dashboard screenshot reportedly showed CPU ~2.28%, memory
+~8.23%, root usage ~7.63%, uptime ~39 minutes, two displayed scrape targets UP,
+and network receive/transmit measurements. These are historical observations.
+**The screenshot file is missing from this checkout**; no image is fabricated or
+embedded. Dashboard source and earlier API/query evidence are available.
+
+See the [evidence index](docs/TEST-EVIDENCE.md), [monitoring guide](docs/MONITORING.md),
+[automation guide](docs/AUTOMATION.md), [incident reports](docs/incidents/),
+[operations runbook](docs/runbooks/operations.md), and
+[off-device recovery procedure](docs/runbooks/off-device-backup.md).
+
+## Scope and limitations
+
+This is a single-host lab, with a defective battery and manual LUKS unlocking after
+power loss. Automatic power restoration is not implemented. Backups are manual and
+off-device, with no independently verified offsite copy or guaranteed RPO/RTO.
+Centralized logging and external alert delivery are deferred. Local privileged
+users and Docker administrators remain trusted.
+
+Read the [security overview](docs/SECURITY.md), [complete limitations](docs/LIMITATIONS.md),
+[future roadmap](docs/ROADMAP.md), and [implementation record](docs/PROGRESS.md).
+No continuous-uptime, enterprise disaster-recovery or vulnerability-free claim is made.
+
+Licensed under [MIT](LICENSE).

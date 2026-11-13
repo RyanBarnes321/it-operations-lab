@@ -1,5 +1,10 @@
 # Operations, installation and recovery
 
+For a new host, follow [fresh installation](installation.md). This runbook covers
+the deployed stack and maintenance. Final-session live checks were blocked by
+execution-environment socket restrictions; earlier live results are historical.
+See [release checklist](../RELEASE-CHECKLIST.md).
+
 ## Validate and troubleshoot
 
 Run `scripts/validate.sh` from the project. Inspect `docker compose ps`,
@@ -34,8 +39,9 @@ explicitly reviewed pinned version; run Compose and promtool validation before
 `docker compose up -d SERVICE`. Verify health, queries and restart counts afterward.
 Rollback by restoring the previous configuration and pinned image, then recreating
 only the changed service. Check upstream database migration compatibility first.
-Do not use `docker compose down -v`. During this session pre-change Compose and
-Prometheus files were saved under `/tmp/lab-*.rollback`; these are temporary aids.
+Do not use `docker compose down -v`. Historical implementation used `/tmp/lab-*.rollback` files as temporary aids;
+their continued existence is not guaranteed. Use versioned configuration and a
+verified backup for future changes.
 
 ## Backup and restore
 
@@ -44,16 +50,17 @@ configuration archive plus SHA256 sidecar, validates gzip/tar and verifies the h
 The destination must already exist and should be mode 700. Treat archives as private.
 This backup deliberately excludes secrets and Docker volumes. It cannot recover
 Grafana users/settings or historical metrics. Provisioned dashboard/configuration
-can be reconstructed. No independent backup destination is presently verified.
+can be reconstructed. The user reports a verified encrypted Windows off-device backup; no independent
+offsite destination is verified. See off-device-backup.md for the transfer workflow.
 
 For a restore drill, verify `sha256sum -c ARCHIVE.sha256`, extract into an empty
 private temporary directory, compare `compose.yaml` and monitoring files with the
-source and run `docker compose -f RESTORE/compose.yaml config --no-interpolate` only
+source and run `docker compose -f RESTORE/compose.yaml config -q` only
 after restoring the required secret files securely. Do not deploy a drill over the
 live stack. For real recovery provision secrets through a separate protected channel,
 restore source configuration, validate, start, and verify targets/dashboard.
-Application-state restoration is now verified in an isolated drill; independent
-off-device recovery remains a release gate. Do not claim
+Application-state restoration and a user-executed Windows round trip are recorded
+in [the evidence index](../TEST-EVIDENCE.md). Do not claim
 same-disk archives provide disaster recovery. Scheduling is deferred until protected
 off-device storage and retention requirements are established.
 
@@ -84,7 +91,7 @@ into a private directory. SQLite integrity was checked on the restored Grafana D
 A temporary Prometheus container with network disabled, no published ports, and the
 restored data started successfully and returned a historical host metric. The test
 container was removed and live volumes were never overwritten. Grafana restored application startup, provisioning and queries are now verified;
-off-device recovery remains unverified. See the repeatable drill below.
+the user-executed off-device return-restore also passed. See the repeatable drill below.
 
 
 ## Repeat Grafana application restoration without touching production
@@ -128,6 +135,7 @@ is retained. The recorded production container IDs, start times, restart counter
 and running states are identical before and after, and production Grafana health is
 checked again after test shutdown. Evidence: grafana-restore-verification.json.
 This drill checks application/API behavior; it does not replace visual rendering
-inspection or the pending off-device recovery exercise. If forcibly killed or the
-host loses power, inspect uniquely named `lab-restore-*` resources before cleanup;
+inspection. The user reports both visual inspection and off-device recovery
+complete; see [evidence](../TEST-EVIDENCE.md) for provenance and the missing image.
+If forcibly killed or the host loses power, inspect uniquely named `lab-restore-*` resources before cleanup;
 never remove production volumes.

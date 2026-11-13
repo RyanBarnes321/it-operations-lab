@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-11-12T00:37:43.148718+00:00",
-  "backup": "lab-state-PlVe4Kg0.tar.gz",
+  "timestamp": "2026-11-12T22:55:02.675775+00:00",
+  "backup": "returned-state.tar.gz",
   "sha256_verified": true,
   "method": "restored Grafana and Prometheus copies on dedicated internal Docker network; no published ports; no production volumes",
   "commands": [
@@ -14,25 +14,25 @@
   "production_before": {
     "grafana": {
       "id": "947f6f531081650ab6ed4dc8482ed7ebedf5aa398accc67f17235c6b18192c66",
-      "started_at": "2026-11-11T19:02:38.44424536Z",
+      "started_at": "2026-11-12T21:55:03.259619644Z",
       "running": true,
       "restarts": 0
     },
     "prometheus": {
       "id": "ae0c12cfafbf7a4d73097626c6371597d44be435b5197ca47af8e166f305dc7a",
-      "started_at": "2026-11-11T19:02:38.520122886Z",
+      "started_at": "2026-11-12T21:55:03.168341606Z",
       "running": true,
       "restarts": 0
     },
     "node-exporter": {
       "id": "5f6a05a25832e635b2c2b332adc1094051aa83edad50168b1c62fc58b390fcd5",
-      "started_at": "2026-11-11T19:00:39.992576533Z",
+      "started_at": "2026-11-12T21:55:03.191199169Z",
       "running": true,
       "restarts": 0
     },
     "blackbox": {
       "id": "668a7b5374952528ba2a157feb083fcb3e37759fb15fdee926e26843a1b1a4a4",
-      "started_at": "2026-11-11T18:58:49.935243528Z",
+      "started_at": "2026-11-12T21:55:03.072492753Z",
       "running": true,
       "restarts": 0
     }
@@ -179,31 +179,31 @@
     }
   ],
   "temporary_containers_unprivileged": {
-    "lab-restore-cfe6c5d1c8-prom": "65534:65534",
-    "lab-restore-cfe6c5d1c8-graf": "472"
+    "lab-restore-494357c987-prom": "65534:65534",
+    "lab-restore-494357c987-graf": "472"
   },
   "production_after": {
     "grafana": {
       "id": "947f6f531081650ab6ed4dc8482ed7ebedf5aa398accc67f17235c6b18192c66",
-      "started_at": "2026-11-11T19:02:38.44424536Z",
+      "started_at": "2026-11-12T21:55:03.259619644Z",
       "running": true,
       "restarts": 0
     },
     "prometheus": {
       "id": "ae0c12cfafbf7a4d73097626c6371597d44be435b5197ca47af8e166f305dc7a",
-      "started_at": "2026-11-11T19:02:38.520122886Z",
+      "started_at": "2026-11-12T21:55:03.168341606Z",
       "running": true,
       "restarts": 0
     },
     "node-exporter": {
       "id": "5f6a05a25832e635b2c2b332adc1094051aa83edad50168b1c62fc58b390fcd5",
-      "started_at": "2026-11-11T19:00:39.992576533Z",
+      "started_at": "2026-11-12T21:55:03.191199169Z",
       "running": true,
       "restarts": 0
     },
     "blackbox": {
       "id": "668a7b5374952528ba2a157feb083fcb3e37759fb15fdee926e26843a1b1a4a4",
-      "started_at": "2026-11-11T18:58:49.935243528Z",
+      "started_at": "2026-11-12T21:55:03.072492753Z",
       "running": true,
       "restarts": 0
     }

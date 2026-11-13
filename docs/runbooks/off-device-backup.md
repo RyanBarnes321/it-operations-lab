@@ -1,8 +1,11 @@
-# Zero-cost off-device backup proposal
+# Encrypted off-device backup and recovery
 
-Status: encryption/decryption drill tested locally; Windows transfer and recovery
-pending user participation. No Windows system settings, remote services, scheduled
-tasks, credentials or firewall rules have been changed.
+Status: the user reports a completed encrypted Windows backup round trip, matching
+original SHA-256, isolated application restore, and successful recovery using a
+passphrase-encrypted USB identity copy. The existing returned-archive restore JSON
+is consistent with that report. These were user-executed activities, not Windows
+transfers performed by this final Codex session. See [evidence](../TEST-EVIDENCE.md).
+Offsite storage and a recurring backup cadence remain unverified.
 
 Use the Windows desktop as a **pull destination over existing LAN SSH**, storing
 only age-encrypted archives. No incoming Windows service is needed. The desktop
@@ -48,7 +51,10 @@ send `identity.txt`, paste it into chat or commit it. Check the directory ACL; a
 administrator/account compromise can still access decrypted files. Keep a second
 protected copy of the identity on an existing offline device or use an established
 password manager with independent recovery. Without recoverable identity, backups
-are unusable. No such independent key copy is yet confirmed.
+are unusable. The user confirms a passphrase-encrypted USB copy was tested successfully and
+that both recovery key and passphrase are safely stored. Do not inspect, send or
+collect either. For a new deployment, independently establish and test recovery
+without overwriting the existing identity.
 
 ## Dell encryption and export (after public recipient is provided)
 
@@ -58,15 +64,17 @@ its actual filename and the public recipient. Never supply a private identity.
 
 ```sh
 cd /opt/it-operations-lab
+# Replace with the authorized export account on your own host.
+LAB_SSH_USER=your-lab-user
 umask 077
 sha256sum -c backups/lab-state-PlVe4Kg0.tar.gz.sha256
 runtime/age/age -r 'age1PUBLIC_RECIPIENT_HERE' \
   -o backups/lab-state-PlVe4Kg0.tar.gz.age backups/lab-state-PlVe4Kg0.tar.gz
-install -d -o dell-lab -g dell-lab -m 700 runtime/export
-install -o dell-lab -g dell-lab -m 600 backups/lab-state-PlVe4Kg0.tar.gz.age runtime/export/
+install -d -o "$LAB_SSH_USER" -g "$(id -gn "$LAB_SSH_USER")" -m 700 runtime/export
+install -o "$LAB_SSH_USER" -g "$(id -gn "$LAB_SSH_USER")" -m 600 backups/lab-state-PlVe4Kg0.tar.gz.age runtime/export/
 cd runtime/export
 sha256sum lab-state-PlVe4Kg0.tar.gz.age > lab-state-PlVe4Kg0.tar.gz.age.sha256
-chown dell-lab:dell-lab lab-state-PlVe4Kg0.tar.gz.age.sha256
+chown "$LAB_SSH_USER:$(id -gn "$LAB_SSH_USER")" lab-state-PlVe4Kg0.tar.gz.age.sha256
 chmod 600 lab-state-PlVe4Kg0.tar.gz.age.sha256
 ```
 
@@ -74,12 +82,16 @@ These targeted permissions apply only to newly exported ciphertext. The root-onl
 plaintext backup and live secrets remain unchanged. Do not make the plaintext archive
 readable to facilitate scp. The export directory is ignored through `/runtime/`.
 
+Replace `<lab-user>` and `<lab-address>` below with your own trusted SSH destination.
+The named archive is the historical tested generation; use your actual verified
+generation and its sidecar when making a newer backup.
+
 ## Windows pull, integrity check and recovery
 
 ```powershell
-scp dell-lab@192.0.2.10:/opt/it-operations-lab/runtime/export/lab-state-PlVe4Kg0.tar.gz.age "$vault\"
+scp '<lab-user>@<lab-address>:/opt/it-operations-lab/runtime/export/lab-state-PlVe4Kg0.tar.gz.age' "$vault\"
 if ($LASTEXITCODE -ne 0) { throw 'Backup copy failed' }
-scp dell-lab@192.0.2.10:/opt/it-operations-lab/runtime/export/lab-state-PlVe4Kg0.tar.gz.age.sha256 "$vault\"
+scp '<lab-user>@<lab-address>:/opt/it-operations-lab/runtime/export/lab-state-PlVe4Kg0.tar.gz.age.sha256' "$vault\"
 if ($LASTEXITCODE -ne 0) { throw 'Checksum copy failed' }
 $encrypted = Join-Path $vault 'lab-state-PlVe4Kg0.tar.gz.age'
 $expected = ((Get-Content "$encrypted.sha256").Trim() -split '\s+')[0]
@@ -108,5 +120,21 @@ install automatic deletion yet. Check free space before each run. Record UTC tim
 archive identifier, encrypted-file hash, transfer result and drill result, without
 keys/credentials/host details. Review monthly and after configuration changes.
 No guaranteed RPO/RTO is claimed while copying is manual and desktop availability
-is unknown. Close this gate only after real off-device transfer and return-restore
-succeed. An encrypted copy on the Dell alone does not close it.
+is unknown. For every new generation, record success only after real off-device transfer and
+recovery verification. The reported round trip closes the original functional gate;
+an encrypted copy on the Dell alone does not establish off-device protection.
+
+
+## USB identity recovery verification
+
+For this release the user reports a passphrase-encrypted USB copy of the age
+private identity. A subsequent recovery test decrypted the stored backup and the
+plaintext archive SHA-256 matched the previously verified backup. The user confirms
+safe storage of the USB recovery key and passphrase. Neither was inspected by Codex.
+
+For future drills, use the protected recovery copy locally, compare decrypted
+archive bytes against the trusted original SHA-256 and perform the isolated
+application restore. Keep identities and temporary plaintext outside the checkout
+and shared/synced folders. Do not put passphrases in command arguments, shell
+history or result records. Do not overwrite a known-good identity or delete the
+last recoverable backup while testing. Record only sanitized outcomes.

@@ -31,14 +31,29 @@ Blackbox configuration follows the upstream multi-target pattern:
 https://prometheus.io/docs/guides/multi-target-exporter/ .
 
 
-Release-candidate restore verification uses a separate temporary **internal** Docker
+Isolated restore verification uses a separate temporary **internal** Docker
 network containing restored Grafana and Prometheus only. No ports are published;
 no live volumes are mounted, and production services are not connected. The host
 validation harness queries the temporary bridge address, then removes the drill.
 This network exists only during a drill, not as a deployed monitoring component.
 
-Proposed backup flow: consistent local state archive → age public-key encryption
-on Dell → user-initiated SCP pull to Windows over existing private SSH → protected
-Windows directory. Only ciphertext leaves the Dell. The Windows identity and its
-independent recovery copy remain controlled by the user. This transfer is proposed,
-not yet observed; same-house off-device storage is not offsite protection.
+## Verified backup workflow
+
+```mermaid
+flowchart LR
+  State[Consistent Grafana and Prometheus archive] -->|age public recipient| Cipher[Encrypted archive on Dell]
+  Cipher -->|User SCP pull over trusted SSH| Windows[Protected Windows backup directory]
+  USB[Passphrase-encrypted USB identity copy] -->|User recovery test| Windows
+  Windows -->|User recovery and return over SSH| Staging[Private Dell staging]
+  Staging -->|Original SHA-256 match| Drill[Isolated application restore]
+```
+
+The user reports a successful Windows round trip, matching original archive and
+USB identity recovery test. The returned restore record verifies seven historical
+queries and unchanged production state. This final session reviewed the evidence;
+it did not perform the Windows transfer or inspect the recovery identity. Only
+ciphertext is exported for backup storage; decrypted test material is returned
+through trusted SSH to private staging for recovery verification. Same-house
+Windows storage is off-device, not independently verified offsite protection.
+See [backup procedure](../runbooks/off-device-backup.md) and
+[evidence attribution](../TEST-EVIDENCE.md).
