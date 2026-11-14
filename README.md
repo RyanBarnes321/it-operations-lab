@@ -1,5 +1,7 @@
 # IT Operations & Automation Lab
 
+[![Quality](https://github.com/RyanBarnes321/it-operations-lab/actions/workflows/quality.yml/badge.svg?branch=main)](https://github.com/RyanBarnes321/it-operations-lab/actions/workflows/quality.yml)
+
 A self-hosted Debian operations environment featuring Docker-based monitoring,
 HTTP/TCP availability checks, alerting, cross-platform diagnostics, incident
 investigation, and encrypted backup recovery.

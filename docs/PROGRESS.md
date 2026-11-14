@@ -69,7 +69,8 @@ private tree before publication documentation was updated. No old post-v1.0.0
 commits, PR refs, release tags or private recovery material were imported.
 
 The original repository is retained privately. The successor is validated privately
-before release and public visibility. Its own Linux/Windows results and provenance
+before release and public visibility. Its first main run passed Linux and Windows. Final main/tag runs are checked
+again before release/public visibility. Its own results and provenance
 are recorded in [CI evidence](evidence/github-ci-verification.json),
 [publication](PUBLICATION.md) and [v1.0.1 notes](releases/v1.0.1.md).
 

@@ -23,7 +23,8 @@ refs, the original v1.0.1 tag and old object database were never imported.
 Only `main`, the preserved `v1.0.0` and a fresh annotated `v1.0.1` are pushed.
 Every reachable object, author/committer/tagger and historical tracked path is
 checked. The successor starts private; both hosted jobs must pass before release
-and public visibility. Exact results appear in [CI evidence](evidence/github-ci-verification.json)
+and public visibility. The first successor main run passed Linux and Windows. Final release-commit
+verification remains required before publication. Exact results appear in [CI evidence](evidence/github-ci-verification.json)
 and the [release](https://github.com/RyanBarnes321/it-operations-lab/releases/tag/v1.0.1).
 Generic historical temporary-directory examples are documentation, not copied
 recovery artifacts. No files from system temporary storage were imported.

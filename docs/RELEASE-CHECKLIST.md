@@ -22,7 +22,7 @@ and [patch notes](releases/v1.0.1.md). Lab results below retain original attribu
 | YAML/JSON, Bash syntax, Python AST, links, dashboard inventory | Passed locally | scripts/check-source.py; final-quality-audit.json |
 | README, runbooks, provenance and limitations | Reviewed and updated | README; TEST-EVIDENCE.md; LIMITATIONS.md |
 | Clean-checkout procedure | Documented/static review; separate clean-host rehearsal not performed | runbooks/installation.md |
-| CI workflow | Successor Linux/Windows required before publication; results in CI evidence | .github/workflows/quality.yml; QUALITY.md |
+| CI workflow | First successor main Linux/Windows passed; released commit checked separately; results in CI evidence | .github/workflows/quality.yml; QUALITY.md |
 | Visual screenshot | Historical user inspection accepted; image missing and omitted | TEST-EVIDENCE.md; no invented image |
 | Final commit/clean tree | Final quality changes committed; hash/clean result reported in handoff | Git status, log and fsck |
 | Historical v1.0.0 tag | Annotated tag exists at original reviewed commit; unchanged | releases/v1.0.0.md |

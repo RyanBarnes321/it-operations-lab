@@ -8,7 +8,49 @@
   "reviewed_private_source_tree_matches": true,
   "private_post_baseline_commits_imported": false,
   "private_recovery_material_imported": false,
-  "successor_runs": [],
+  "successor_runs": [
+    {
+      "id": 43538457143,
+      "event": "push",
+      "branch": "main",
+      "head_sha": "e93932abc572ad75e6dbd6f9ab82035c0fd61f0c",
+      "conclusion": "success",
+      "url": "https://github.com/RyanBarnes321/it-operations-lab/actions/runs/43538457143",
+      "jobs": [
+        {
+          "name": "windows",
+          "conclusion": "success",
+          "url": "https://github.com/RyanBarnes321/it-operations-lab/actions/runs/43538457143/job/132273085000"
+        },
+        {
+          "name": "linux",
+          "conclusion": "success",
+          "url": "https://github.com/RyanBarnes321/it-operations-lab/actions/runs/43538457143/job/132273085656"
+        }
+      ]
+    }
+  ],
   "publication_gate": "Successor Linux and Windows CI must pass before release and public visibility",
-  "scope": "No new backup transfer, restoration, USB recovery or power test"
+  "scope": "No new backup transfer, restoration, USB recovery or power test",
+  "verified_at_utc": "2026-11-14T01:08:55.254813+00:00",
+  "successor_repository_id": 1457259688,
+  "historical_baseline_run": {
+    "id": 43538458840,
+    "branch": "v1.0.0",
+    "conclusion": "failure",
+    "failed_step": "Start disposable runner stack",
+    "scope": "Preserved historical tag lacks the readiness fix; not the v1.0.1 release source",
+    "url": "https://github.com/RyanBarnes321/it-operations-lab/actions/runs/43538458840"
+  },
+  "local_checks": {
+    "source_and_history_guard": "passed",
+    "compose": "passed",
+    "prometheus_configuration": "passed",
+    "alert_rule_fixtures": 3,
+    "mock_backup_failure_cases": 3,
+    "local_documentation_links": 97,
+    "metadata_and_all_objects_audit": "passed",
+    "private_later_git_objects": 0
+  },
+  "final_release_gate": "Final main and annotated v1.0.1 CI must both pass; exact released-commit run links are recorded in GitHub release notes."
 }

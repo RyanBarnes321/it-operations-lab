@@ -38,8 +38,9 @@ is a possible later supply-chain improvement.
 The original private lab's CI exposed a Grafana startup connection reset. Bounded
 readiness polling fixed it without removing validation. That source change was
 recreated in this successor with a privacy-safe commit identity; private PR and run
-links are not presented as public evidence. The successor must pass both Linux and
-Windows CI before its release and public visibility. Its own run links are recorded
+links are not presented as public evidence. The successor's [first main run](https://github.com/RyanBarnes321/it-operations-lab/actions/runs/43538457143)
+passed both Linux and Windows. The final main and patch-tag runs must also pass
+before release and public visibility. Its own run links are recorded
 in [CI evidence](evidence/github-ci-verification.json) and the
 [patch release](https://github.com/RyanBarnes321/it-operations-lab/releases/tag/v1.0.1).
 
