@@ -38,7 +38,7 @@ linked. Exporter network counters are accurately scoped to bridge networking.
 A source validator checks YAML/JSON, shell/Python syntax, local links, dashboard
 inventory and reachable-history privacy patterns. GitHub Actions reuses the local
 validation and Windows fixtures on disposable runners, without private dependencies.
-The hosted workflow has not run; no passing CI badge or claim was added.
+At that review, the hosted workflow had not run; no passing CI claim was added.
 
 ## Preserved historical acceptance
 
@@ -55,15 +55,26 @@ socket restrictions and privacy holds remain in its immutable evidence record;
 this pass resolves those holds with new evidence rather than relabeling old results.
 See [test evidence](TEST-EVIDENCE.md).
 
-## Release disposition
+## GitHub CI and portfolio completion — 2026-11-13
 
-Ready for a local `v1.0.0` tag after the final quality commit and clean-tree check;
-no tag or remote has been created. Hosted CI and a separate clean-host rehearsal
-are pending evidence, not passed tests. No current Windows, ShellCheck, fresh
-vulnerability scan, reboot or power-recovery test was performed.
+The private GitHub remote and annotated `v1.0.0` tag now exist. The original tag
+remains at `1f4af30dbfbb02331d886e1605b11a643f7ab3e6`. The first hosted Linux
+run exposed a Grafana startup connection reset. PR #1 adds bounded readiness polling
+without removing tests. Linux and Windows passed on its PR and branch-push runs;
+Codex independently verified both job results before merging it as
+`8a85551b4307f3c30019f7d298edef50869fe629`. Local `main` was clean and
+fast-forwarded after fetching; no history rewrite or forced update was used.
 
-Accepted limits remain manual LUKS unlock, defective battery, no automatic power
-restoration, deferred centralized logging, manual backups, no guaranteed RPO/RTO
-and no independently verified geographically separate offsite backup. Read the
-[checklist](RELEASE-CHECKLIST.md), [release notes](releases/v1.0.0.md) and
-[limitations](LIMITATIONS.md) before publication.
+Linux and Windows then passed on the merged main as well. The final documentation
+commit is checked separately before the v1.0.1 tag and GitHub patch release.
+
+Source/history privacy checks, Compose syntax, Prometheus configuration, three
+alert-rule fixtures, twelve Bash cases and three mocked backup failure cases passed
+again. Production was not restarted or reconfigured; existing recovery drills were
+not repeated. The README, release checklist, evidence index and related documents
+now distinguish historical v1.0.0 results from the later CI fix. See
+[v1.0.1 notes](releases/v1.0.1.md) for main CI and patch-release references.
+
+The screenshot remains unavailable and optional. A separate clean-host rehearsal,
+fresh vulnerability scan, ShellCheck, reboot and power-recovery test remain unperformed.
+Accepted operational limits are unchanged; see [limitations](LIMITATIONS.md).

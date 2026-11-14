@@ -55,9 +55,25 @@ evidence. UTC recording timestamps may be Nov 13 (America/Montevideo is UTC−03
 | Updated validation suite | Codex: Prometheus configuration, three alert-rule delay/firing/recovery tests, twelve Bash cases and three backup failure-path cases passed | [final-quality-audit.json](evidence/final-quality-audit.json) |
 | Updated isolated restore harness | Codex regression against the existing local archive; no new Windows transfer or USB test | [final-quality-restore.json](evidence/final-quality-restore.json) |
 | Source and privacy checks | YAML/JSON, shell syntax, Python AST, local file links, dashboard inventory and full reachable-history privacy guard; complete object review and Git integrity | [final-quality-audit.json](evidence/final-quality-audit.json) |
-| GitHub Actions | Added, no real workflow run yet; no passing CI claim | [quality workflow](../.github/workflows/quality.yml) |
+| GitHub Actions at Nov 12 review | Configured; no hosted run at that review; superseded below | [quality workflow](../.github/workflows/quality.yml) |
 
 No separate clean-machine deployment, current Windows execution, fresh vulnerability
 scan, ShellCheck run, power-recovery test or new screenshot was performed. Network
 throughput evidence reflects the exporter bridge namespace; it does not establish
 physical host NIC throughput. Historical restoration evidence remains historical.
+
+## Hosted CI and final local checks — 2026-11-13
+
+Codex independently inspected GitHub's completed job conclusions for PR #1 and
+its branch push: Linux and Windows succeeded at
+`8395e61928a6f71c1b9cc5dc5798a2d61a1a0ba2`. PR #1 was then merged with
+its expected head checked. [Patch notes](releases/v1.0.1.md) identify the main runs;
+[hosted CI evidence](evidence/github-ci-verification.json) records their provenance.
+The hosted Windows nine-case loopback fixture is a new CI result, separate from
+the historical user-executed Windows transfer and USB recovery reports.
+
+Local source/history scanning, YAML/JSON, Bash syntax, Python AST, local file links,
+dashboard inventory, Compose syntax, Prometheus configuration, three alert-rule
+fixtures, twelve Bash cases, three mock backup failure cases and Git integrity
+passed. No production restart, backup, restore, power test or new screenshot was
+performed during this completion pass.

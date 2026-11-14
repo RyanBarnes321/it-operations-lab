@@ -32,5 +32,6 @@
 - Node Exporter uses bridge networking; network counters reflect the exporter
   namespace, not verified host NIC traffic. Host CPU, memory, filesystem and uptime
   metrics remain in scope.
-- CI is configured but has not run on GitHub. Source checks do not prove hosted
-  runner compatibility or absence of every possible secret/vulnerability.
+- Hosted Linux and Windows CI passed for the readiness fix; see the
+  [patch notes](releases/v1.0.1.md) for main verification. CI does not establish
+  production recovery or absence of every possible secret/vulnerability.

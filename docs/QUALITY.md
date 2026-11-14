@@ -3,9 +3,9 @@
 Run source checks from a checkout; no lab connection or credentials are needed:
 
 ```sh
-python3 -m venv /tmp/itlab-quality
-/tmp/itlab-quality/bin/pip install -r requirements-quality.txt
-/tmp/itlab-quality/bin/python scripts/check-source.py
+python3 -m venv .venv
+.venv/bin/pip install -r requirements-quality.txt
+.venv/bin/python scripts/check-source.py
 ./tests/backup-failures.sh
 ```
 
@@ -35,8 +35,20 @@ tool is required. Normal hosted-runner availability/usage limits still apply.
 Actions and container versions use mutable version tags; digest/commit pinning
 is a possible later supply-chain improvement.
 
-**Workflow status: configured, not run on GitHub.** Local checks do not establish
-that either hosted job passed. No separate clean-machine deployment or Windows
-execution by this final Codex session is claimed. Do not add a passing CI badge
-until a real run completes. The runner stack does not test power recovery,
-off-device transfer, USB identity recovery or production backup restoration.
+**Hosted verification — 2026-11-13:** Linux and Windows passed on both the
+[PR #1 run](https://github.com/RyanBarnes321/it-operations-lab/actions/runs/43354814946)
+and [branch push](https://github.com/RyanBarnes321/it-operations-lab/actions/runs/43354791591)
+at `8395e61928a6f71c1b9cc5dc5798a2d61a1a0ba2`. The original `v1.0.0`
+hosted Linux run failed during Grafana startup. PR #1 polls readiness with bounded
+attempts and per-request timeouts, preserving all validation and failure diagnostics.
+[Merged main](https://github.com/RyanBarnes321/it-operations-lab/actions/runs/43534801303)
+also passed Linux and Windows. See [v1.0.1 notes](releases/v1.0.1.md) for final
+patch-release verification.
+
+A disposable Ubuntu runner and Windows loopback fixtures do not establish a separate
+clean-host deployment or production recovery. Power recovery, off-device transfer,
+USB identity recovery and production backup restoration remain outside CI's scope.
+Local validation was repeated without restarting production: source/history checks,
+Compose, promtool configuration, three rule fixtures, twelve Bash cases and three
+mocked backup failure cases passed. Use `TMPDIR="$PWD/runtime/quality-fixtures"`
+with an existing ignored directory to keep disposable local fixtures under runtime.

@@ -9,9 +9,11 @@ how to operate services: detect failures, investigate their causes, make control
 repairs, and verify recovery. It complements backend development with Linux,
 networking, observability, Bash, PowerShell, and operational documentation.
 
-**v1.0.0:** final local security and quality checks pass; ready for a local tag.
-No release tag or remote has been created. [Release checklist](docs/RELEASE-CHECKLIST.md)
-records the evidence and accepted limitations. CI is configured but has not run on GitHub.
+**Release status:** the repository is [private on GitHub](https://github.com/RyanBarnes321/it-operations-lab).
+The historical annotated `v1.0.0` tag is preserved. [PR #1](https://github.com/RyanBarnes321/it-operations-lab/pull/1)
+adds bounded startup readiness polling for hosted CI; Linux and Windows checks passed
+on the PR, branch and merged `main`. See [patch release notes](docs/releases/v1.0.1.md) and the
+[release checklist](docs/RELEASE-CHECKLIST.md) for verification and accepted limitations.
 
 ## Demonstrations to explore
 

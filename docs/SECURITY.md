@@ -41,7 +41,8 @@ remain labeled historical; stale object IDs in those records are not Git refs.
 bundles, encrypted archives and common archive formats. The recovery bundle is
 outside the repository and cannot enter an ordinary project push. Ignore rules
 are not protection against a deliberate force-add: review publication contents.
-No other portfolio repository was modified. No remote, push or release tag was made.
+No other portfolio repository was modified. No remote, push or release tag was made
+during the Nov 12 review; later authorized GitHub synchronization is recorded below.
 
 ## Effective deployment boundaries
 
@@ -85,6 +86,17 @@ No credential exposure was found in Git; this scan does not establish whether
 secrets disclosed outside Git need rotation. A historical incident notes that
 previously shared credentials were reportedly reset.
 
-The local privacy/security hold is closed. CI has not yet run on GitHub and a
-separate clean-host deployment remains untested; neither is represented as passed.
+The local privacy/security hold is closed. Subsequent Linux/Windows hosted CI
+passed for PR #1; see [patch notes](releases/v1.0.1.md) for main results.
+A separate clean-host deployment remains untested.
+
+The Nov 13 completion preserves private visibility, sanitized history and the
+original annotated v1.0.0 tag. Only reviewed code/documentation paths are staged;
+secret, backup, runtime and recovery-bundle paths remain excluded. No recovery
+identity or passphrase was inspected, and no files from temporary system storage
+were copied or uploaded. The conservative source/history scan passed again.
+Git author/committer metadata now includes operator email addresses from existing
+commits. Those identities are not repeated here. A decision to make the repository
+public should explicitly review that metadata with the owner; history is preserved
+and no further rewrite is authorized.
 Report suspected exposure privately to the repository owner without pasting secrets.
