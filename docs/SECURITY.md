@@ -86,17 +86,27 @@ No credential exposure was found in Git; this scan does not establish whether
 secrets disclosed outside Git need rotation. A historical incident notes that
 previously shared credentials were reportedly reset.
 
-The local privacy/security hold is closed. Subsequent Linux/Windows hosted CI
-passed for PR #1; see [patch notes](releases/v1.0.1.md) for main results.
-A separate clean-host deployment remains untested.
+## Successor publication boundary
 
-The Nov 13 completion preserves private visibility, sanitized history and the
-original annotated v1.0.0 tag. Only reviewed code/documentation paths are staged;
-secret, backup, runtime and recovery-bundle paths remain excluded. No recovery
-identity or passphrase was inspected, and no files from temporary system storage
-were copied or uploaded. The conservative source/history scan passed again.
-Git author/committer metadata now includes operator email addresses from existing
-commits. Those identities are not repeated here. A decision to make the repository
-public should explicitly review that metadata with the owner; history is preserved
-and no further rewrite is authorized.
+The original private lab's later Git metadata contained unnecessary personal
+information. The public successor imports only the audited `v1.0.0` tag and its
+ancestry. Later file changes were recreated with the owner's verified GitHub noreply
+identity. The recreated source tree exactly matched the reviewed private source
+before publication-specific documentation changes. No old later commit, PR ref,
+release tag or recovery material was imported. The archive remains private.
+
+Every reachable successor object, commit identity, tagger, ref and tracked path is
+reviewed before publication. The scoped credential/private-address guard and Git
+integrity checks complement that review; neither establishes vulnerability freedom.
+Generic historical documentation examples of temporary working directories are
+not recovery artifacts. No file was copied from system temporary storage, and no
+private temporary recovery path or bundle is included.
+
+Use the separate clean publication checkout for public commits. The operational
+checkout retains private history and must never push to the public repository.
+See [publication provenance and maintenance](PUBLICATION.md). The successor's own
+Linux/Windows CI must pass before release and public visibility. Historical
+restoration evidence is retained with its original provenance; no new restore,
+reboot, secret access or production change is part of publication.
+
 Report suspected exposure privately to the repository owner without pasting secrets.

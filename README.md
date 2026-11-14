@@ -9,11 +9,11 @@ how to operate services: detect failures, investigate their causes, make control
 repairs, and verify recovery. It complements backend development with Linux,
 networking, observability, Bash, PowerShell, and operational documentation.
 
-**Release status:** the repository is [private on GitHub](https://github.com/RyanBarnes321/it-operations-lab).
-The historical annotated `v1.0.0` tag is preserved. [PR #1](https://github.com/RyanBarnes321/it-operations-lab/pull/1)
-adds bounded startup readiness polling for hosted CI; Linux and Windows checks passed
-on the PR, branch and merged `main`. See [patch release notes](docs/releases/v1.0.1.md) and the
-[release checklist](docs/RELEASE-CHECKLIST.md) for verification and accepted limitations.
+**v1.0.1:** bounded CI readiness checks and documented recovery evidence.
+[Linux and Windows CI](https://github.com/RyanBarnes321/it-operations-lab/actions/workflows/quality.yml)
+validate the source and disposable test environments. See the
+[release notes](docs/releases/v1.0.1.md), [release checklist](docs/RELEASE-CHECKLIST.md)
+and [publication provenance](docs/PUBLICATION.md) for scope, verification and limitations.
 
 ## Demonstrations to explore
 

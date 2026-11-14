@@ -39,9 +39,8 @@ explicitly reviewed pinned version; run Compose and promtool validation before
 `docker compose up -d SERVICE`. Verify health, queries and restart counts afterward.
 Rollback by restoring the previous configuration and pinned image, then recreating
 only the changed service. Check upstream database migration compatibility first.
-Do not use `docker compose down -v`. Historical implementation used `/tmp/lab-*.rollback` files as temporary aids;
-their continued existence is not guaranteed. Use versioned configuration and a
-verified backup for future changes.
+Do not use `docker compose down -v`. Use versioned configuration and a verified
+backup for future changes; temporary rollback aids are not durable recovery.
 
 ## Backup and restore
 

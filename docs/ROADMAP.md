@@ -2,9 +2,9 @@
 
 These are proposals, not implemented features or v1.0 promises.
 
-1. Preserve the [release gates](RELEASE-CHECKLIST.md) and private repository visibility.
-   Add the real, reviewed screenshot if recovered. Public visibility requires a
-   separate explicit decision and review of Git author metadata.
+1. Preserve the [release gates](RELEASE-CHECKLIST.md) and clean publication history.
+   Keep private operational history isolated; see [publication](PUBLICATION.md).
+   Add the real, reviewed screenshot if recovered.
 2. Evaluate power reliability: replacement battery or available UPS, firmware power
    restoration support and a documented reboot drill. Boot/LUKS changes need their
    own design and authorization; manual unlock remains the present boundary.

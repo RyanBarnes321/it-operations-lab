@@ -1,89 +1,14 @@
 {
-  "verified_at_utc": "2026-11-14 00:34:45 UTC",
-  "provenance": "GitHub REST run and job responses independently inspected by Codex",
-  "repository": "RyanBarnes321/it-operations-lab",
-  "private": true,
-  "pr": 1,
-  "merge_commit": "8a85551b4307f3c30019f7d298edef50869fe629",
-  "v1_0_0": {
-    "tag_object": "8d3c101921b33f3a2df9ba6fccc6d882eb944a11",
-    "commit": "1f4af30dbfbb02331d886e1605b11a643f7ab3e6",
-    "preserved": true
-  },
-  "runs": [
-    {
-      "id": 43354814946,
-      "event": "pull_request",
-      "branch": "fix/ci-grafana-readiness",
-      "head_sha": "8395e61928a6f71c1b9cc5dc5798a2d61a1a0ba2",
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/RyanBarnes321/it-operations-lab/actions/runs/43354814946",
-      "jobs": [
-        {
-          "name": "windows",
-          "conclusion": "success",
-          "url": "https://github.com/RyanBarnes321/it-operations-lab/actions/runs/43354814946/job/131654203694"
-        },
-        {
-          "name": "linux",
-          "conclusion": "success",
-          "url": "https://github.com/RyanBarnes321/it-operations-lab/actions/runs/43354814946/job/131654204019"
-        }
-      ]
-    },
-    {
-      "id": 43354791591,
-      "event": "push",
-      "branch": "fix/ci-grafana-readiness",
-      "head_sha": "8395e61928a6f71c1b9cc5dc5798a2d61a1a0ba2",
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/RyanBarnes321/it-operations-lab/actions/runs/43354791591",
-      "jobs": [
-        {
-          "name": "windows",
-          "conclusion": "success",
-          "url": "https://github.com/RyanBarnes321/it-operations-lab/actions/runs/43354791591/job/131654125113"
-        },
-        {
-          "name": "linux",
-          "conclusion": "success",
-          "url": "https://github.com/RyanBarnes321/it-operations-lab/actions/runs/43354791591/job/131654125295"
-        }
-      ]
-    },
-    {
-      "id": 43534801303,
-      "event": "push",
-      "branch": "main",
-      "head_sha": "8a85551b4307f3c30019f7d298edef50869fe629",
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/RyanBarnes321/it-operations-lab/actions/runs/43534801303",
-      "jobs": [
-        {
-          "name": "windows",
-          "conclusion": "success",
-          "url": "https://github.com/RyanBarnes321/it-operations-lab/actions/runs/43534801303/job/132261078349"
-        },
-        {
-          "name": "linux",
-          "conclusion": "success",
-          "url": "https://github.com/RyanBarnes321/it-operations-lab/actions/runs/43534801303/job/132261078707"
-        }
-      ]
-    }
-  ],
-  "local_validation": {
-    "source_history_privacy": "passed",
-    "compose": "passed",
-    "prometheus_configuration": "passed",
-    "alert_rule_fixtures": 3,
-    "bash_cases": 12,
-    "mock_backup_failure_cases": 3,
-    "git_fsck": "passed",
-    "tracked_prohibited_paths": 0
-  },
-  "scope": "No new production restart, recovery drill, backup transfer, USB recovery or power test. Final documentation-commit CI is recorded in the GitHub patch release after it completes."
+  "provenance": "Successor publication; private lab CI is historical and is not presented as public run evidence",
+  "baseline_commit": "1f4af30dbfbb02331d886e1605b11a643f7ab3e6",
+  "baseline_tag_object": "8d3c101921b33f3a2df9ba6fccc6d882eb944a11",
+  "baseline_commits": 6,
+  "recreated_source_commit": "9d37cc38ad8c0b5331720674c57adc2b64b55136",
+  "recreated_source_tree": "3a356c6197de5a72bec3ded605838a33087fbd63",
+  "reviewed_private_source_tree_matches": true,
+  "private_post_baseline_commits_imported": false,
+  "private_recovery_material_imported": false,
+  "successor_runs": [],
+  "publication_gate": "Successor Linux and Windows CI must pass before release and public visibility",
+  "scope": "No new backup transfer, restoration, USB recovery or power test"
 }

@@ -1,9 +1,10 @@
 # Release checklist — v1.0.0 history and v1.0.1 completion
 
-Assessment reviewed 2026-11-13: the original annotated `v1.0.0` tag and private
-remote exist. The CI readiness fix is merged; subsequent verification and patch
-release details are recorded in [v1.0.1](releases/v1.0.1.md). Historical lab results
-below retain their original attribution; they are not fresh recovery exercises.
+The original annotated `v1.0.0` tag is preserved. The successor retains only its
+audited ancestry and freshly recreated later file changes. Publication requires
+its own passing Linux/Windows CI and a fresh annotated `v1.0.1`; private lab CI is
+historical. See [publication](PUBLICATION.md), [CI evidence](evidence/github-ci-verification.json)
+and [patch notes](releases/v1.0.1.md). Lab results below retain original attribution.
 
 | Gate | State | Evidence |
 |---|---|---|
@@ -21,11 +22,11 @@ below retain their original attribution; they are not fresh recovery exercises.
 | YAML/JSON, Bash syntax, Python AST, links, dashboard inventory | Passed locally | scripts/check-source.py; final-quality-audit.json |
 | README, runbooks, provenance and limitations | Reviewed and updated | README; TEST-EVIDENCE.md; LIMITATIONS.md |
 | Clean-checkout procedure | Documented/static review; separate clean-host rehearsal not performed | runbooks/installation.md |
-| CI workflow | PR, branch and merged main Linux/Windows passed; exact links in patch notes | .github/workflows/quality.yml; QUALITY.md |
+| CI workflow | Successor Linux/Windows required before publication; results in CI evidence | .github/workflows/quality.yml; QUALITY.md |
 | Visual screenshot | Historical user inspection accepted; image missing and omitted | TEST-EVIDENCE.md; no invented image |
 | Final commit/clean tree | Final quality changes committed; hash/clean result reported in handoff | Git status, log and fsck |
 | Historical v1.0.0 tag | Annotated tag exists at original reviewed commit; unchanged | releases/v1.0.0.md |
-| Remote repository/push | Existing private GitHub repository; reviewed synchronization authorized | origin; private visibility verified |
+| Remote repository/push | Separate successor, validated privately before public visibility | PUBLICATION.md |
 
 No remaining mandatory functional/security blocker was found. The missing screenshot,
 raw historical Windows JSON and separate-host rehearsal are transparent

@@ -62,18 +62,15 @@ scan, ShellCheck run, power-recovery test or new screenshot was performed. Netwo
 throughput evidence reflects the exporter bridge namespace; it does not establish
 physical host NIC throughput. Historical restoration evidence remains historical.
 
-## Hosted CI and final local checks — 2026-11-13
+## Hosted CI and successor publication — 2026-11-13 local date
 
-Codex independently inspected GitHub's completed job conclusions for PR #1 and
-its branch push: Linux and Windows succeeded at
-`8395e61928a6f71c1b9cc5dc5798a2d61a1a0ba2`. PR #1 was then merged with
-its expected head checked. [Patch notes](releases/v1.0.1.md) identify the main runs;
-[hosted CI evidence](evidence/github-ci-verification.json) records their provenance.
-The hosted Windows nine-case loopback fixture is a new CI result, separate from
-the historical user-executed Windows transfer and USB recovery reports.
+Private lab Linux/Windows CI previously passed after readiness polling replaced
+brittle immediate health requests. Those private PR/run links are not public
+verification. The successor's own results are recorded in
+[CI evidence](evidence/github-ci-verification.json) and [patch notes](releases/v1.0.1.md).
+The hosted Windows nine-case loopback fixture is separate from historical
+user-executed Windows backup transfer and USB recovery reports.
 
-Local source/history scanning, YAML/JSON, Bash syntax, Python AST, local file links,
-dashboard inventory, Compose syntax, Prometheus configuration, three alert-rule
-fixtures, twelve Bash cases, three mock backup failure cases and Git integrity
-passed. No production restart, backup, restore, power test or new screenshot was
-performed during this completion pass.
+Publication uses only audited baseline ancestry plus freshly recreated later file
+changes. See [publication provenance](PUBLICATION.md). No production restart,
+backup transfer, restore, power test or new screenshot was performed for publication.

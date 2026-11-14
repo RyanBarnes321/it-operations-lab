@@ -55,25 +55,23 @@ socket restrictions and privacy holds remain in its immutable evidence record;
 this pass resolves those holds with new evidence rather than relabeling old results.
 See [test evidence](TEST-EVIDENCE.md).
 
-## GitHub CI and portfolio completion — 2026-11-13
+## Hosted CI and privacy-clean publication — 2026-11-13 local date
 
-The private GitHub remote and annotated `v1.0.0` tag now exist. The original tag
-remains at `1f4af30dbfbb02331d886e1605b11a643f7ab3e6`. The first hosted Linux
-run exposed a Grafana startup connection reset. PR #1 adds bounded readiness polling
-without removing tests. Linux and Windows passed on its PR and branch-push runs;
-Codex independently verified both job results before merging it as
-`8a85551b4307f3c30019f7d298edef50869fe629`. Local `main` was clean and
-fast-forwarded after fetching; no history rewrite or forced update was used.
+The original private lab's hosted Linux run exposed a Grafana startup connection
+reset. Bounded readiness polling fixed it; private Linux and Windows CI then passed.
+Historical recovery results above remain attributed and were not rerun.
 
-Linux and Windows then passed on the merged main as well. The final documentation
-commit is checked separately before the v1.0.1 tag and GitHub patch release.
+The owner authorized a separate public successor because later private Git metadata
+contained unnecessary personal information. Only `v1.0.0` and its six-commit ancestry
+were fetched into a fresh local repository. The subsequent file diff was recreated
+with a verified GitHub noreply identity, and its tree exactly matched the reviewed
+private tree before publication documentation was updated. No old post-v1.0.0
+commits, PR refs, release tags or private recovery material were imported.
 
-Source/history privacy checks, Compose syntax, Prometheus configuration, three
-alert-rule fixtures, twelve Bash cases and three mocked backup failure cases passed
-again. Production was not restarted or reconfigured; existing recovery drills were
-not repeated. The README, release checklist, evidence index and related documents
-now distinguish historical v1.0.0 results from the later CI fix. See
-[v1.0.1 notes](releases/v1.0.1.md) for main CI and patch-release references.
+The original repository is retained privately. The successor is validated privately
+before release and public visibility. Its own Linux/Windows results and provenance
+are recorded in [CI evidence](evidence/github-ci-verification.json),
+[publication](PUBLICATION.md) and [v1.0.1 notes](releases/v1.0.1.md).
 
 The screenshot remains unavailable and optional. A separate clean-host rehearsal,
 fresh vulnerability scan, ShellCheck, reboot and power-recovery test remain unperformed.
